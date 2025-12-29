@@ -589,7 +589,7 @@ Karim Walid Fawzy
 - 💼 LinkedIn: https://www.linkedin.com/in/mariam-ahmed-91b500216
 - 🐙 GitHub: https://github.com/starAwesome123
 
-**Project Link:** [https://github.com/yourusername/predictive-maintenance-aiot](https://github.com/yourusername/predictive-maintenance-aiot)
+**Project Link:** https://github.com/abdo-sayed1/Industrial_Predictive_Maintenance_AIoT
 
 ---
 
