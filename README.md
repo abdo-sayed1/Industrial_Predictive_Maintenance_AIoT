@@ -148,6 +148,8 @@ This project implements an end-to-end **Industrial Predictive Maintenance System
 | **Current Sensor** | ACS712 | Electrical load measurement | Analog |
 | **Voltage Sensor** | Voltage Divider | Power supply monitoring | Analog |
 | **Speed Sensor** | Rotary Encoder | RPM measurement | Digital (Interrupt) |
+| **Stepper Motor** | NEMA 17/23 | Load simulation & control | Step/Dir |
+| **Stepper Driver** | A4988 | Stepper motor control | Digital (Step/Dir/Enable) |
 | **Test Rig** | Motor + Flywheel | Fault simulation platform | - |
 
 ### Wiring Diagram
@@ -251,18 +253,21 @@ predictive-maintenance-aiot/
 │   │   │   ├── ds18b20/             # Temperature sensor
 │   │   │   ├── acs712/              # Current sensor
 │   │   │   ├── voltage/             # Voltage sensor
-│   │   │   └── encoder/             # Speed sensor
+│   │   │   ├── encoder/             # Speed sensor
+│   │   │   └── stepper/             # Stepper motor (A4988)
 │   │   ├── mcal/                    # Microcontroller Abstraction
 │   │   │   ├── i2c/                 # I2C driver
 │   │   │   ├── adc/                 # ADC driver
-│   │   │   └── gpio/                # GPIO/Interrupt driver
+│   │   │   ├── gpio/                # GPIO/Interrupt driver
+│   │   │   └── pwm/                 # PWM driver (for stepper)
 │   │   ├── services/                # Application Services
 │   │   │   ├── mqtt/                # MQTT client
 │   │   │   ├── wifi/                # WiFi manager
 │   │   │   └── buffer/              # Data buffering
 │   │   └── app/                     # Application Layer
 │   │       ├── features/            # Feature extraction
-│   │       └── inference/           # TinyML inference
+│   │       ├── inference/           # TinyML inference
+│   │       └── motor_control/       # Stepper motor control
 │   ├── main.ino                     # Main application
 │   ├── config.h                     # Configuration file
 │   └── platformio.ini               # Build configuration
@@ -563,7 +568,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+## 👥 Contact
 
+**Project Maintainer:** 
+Abdelrahman Sayed Ahmed
+
+- 📧 Email: abdo.siyed.official@gmail.com 
+- 💼 LinkedIn: https://www.linkedin.com/in/abdo-sayed1
+- 🐙 GitHub: 
+
+Karim Walid Fawzy
+
+- 📧 Email: Karim@gmail.com
+- 💼 LinkedIn: 
+- 🐙 GitHub: https://github.com/KarimWalidFawzy
+  
+  Mariam Ahmed Goher
+  
+- 📧 Email:  mariamgoher@gmail.com
+- 💼 LinkedIn: https://www.linkedin.com/in/mariam-ahmed-91b500216
+- 🐙 GitHub: https://github.com/starAwesome123
 
 **Project Link:** [https://github.com/yourusername/predictive-maintenance-aiot](https://github.com/yourusername/predictive-maintenance-aiot)
 
