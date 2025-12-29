@@ -1,5 +1,6 @@
 #ifndef MQTT_H
 #define MQTT_H
+#include <WiFi.h>
 #if __cplusplus 
 extern "C" {
 #endif
@@ -8,7 +9,7 @@ extern "C" {
     #define SECRET_PASS " "
     #define MQTT_IPADDRESS "1"
     #define MQTT_PORT 1883
-    #include <WiFi.h>
+    
 #if __cplusplus 
 }
 #endif
