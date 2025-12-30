@@ -40,7 +40,7 @@
 
 ## 🔍 Overview
 
-This project implements an end-to-end **Industrial Predictive Maintenance System** that combines IoT sensors, edge computing, and artificial intelligence to predict machinery failures before they occur. The system monitors critical parameters such as vibration, temperature, current, and speed to detect anomalies and classify fault types in real-time.
+This project implements an end-to-end **Industrial Predictive Maintenance System** that combines IoT sensors, edge computing, and artificial intelligence to predict machinery failures before they occur. The system monitors critical parameters such as vibration, temperature, current, and voltage to detect anomalies and classify fault types in real-time.
 
 ### Key Objectives
 
@@ -91,8 +91,8 @@ This project implements an end-to-end **Industrial Predictive Maintenance System
 ├─────────────────────────────────────────────────────────────────┤
 │  Sensors → HAL → MCAL → Feature Extraction → TinyML Inference  │
 │    ↓         ↓      ↓           ↓                    ↓          │
-│  MPU6050  DS18B20  ACS712    FFT/RMS           Anomaly Score    │
-│  Encoder   Voltage                            Fault Classification│
+│  MPU6050  DS18B20  MAX471    FFT/RMS           Anomaly Score    │
+│  Encoder                                      Fault Classification│
 └────────────────────────────┬────────────────────────────────────┘
                              │ MQTT (WiFi)
                              ↓
@@ -145,12 +145,18 @@ This project implements an end-to-end **Industrial Predictive Maintenance System
 | **Microcontroller** | ESP32 DevKit | Edge computing & connectivity | - |
 | **IMU** | MPU6050 | 3-axis vibration monitoring | I2C |
 | **Temperature** | DS18B20 | Thermal monitoring | OneWire |
-| **Current Sensor** | ACS712 | Electrical load measurement | Analog |
-| **Voltage Sensor** | Voltage Divider | Power supply monitoring | Analog |
+| **Power Sensor** | MAX471 | Current & voltage measurement | Dual Analog |
 | **Speed Sensor** | Rotary Encoder | RPM measurement | Digital (Interrupt) |
 | **Stepper Motor** | NEMA 17/23 | Load simulation & control | Step/Dir |
 | **Stepper Driver** | A4988 | Stepper motor control | Digital (Step/Dir/Enable) |
 | **Test Rig** | Motor + Flywheel | Fault simulation platform | - |
+
+### MAX471 Module Specifications
+- **Current Range:** 0-3A (can measure up to 3A with 3V output)
+- **Voltage Range:** 0-25V
+- **Outputs:** Dual analog outputs (current and voltage)
+- **Advantage:** Single module for both current and voltage sensing
+- **Resolution:** Better linearity compared to separate sensors
 
 ### Wiring Diagram
 > See `/docs/01_hardware_setup.md` for detailed wiring instructions and pin configurations.
@@ -251,8 +257,7 @@ predictive-maintenance-aiot/
 │   │   ├── hal/                     # Hardware Abstraction Layer
 │   │   │   ├── mpu6050/             # Vibration sensor
 │   │   │   ├── ds18b20/             # Temperature sensor
-│   │   │   ├── acs712/              # Current sensor
-│   │   │   ├── voltage/             # Voltage sensor
+│   │   │   ├── max471/              # Current & voltage sensor
 │   │   │   ├── encoder/             # Speed sensor
 │   │   │   └── stepper/             # Stepper motor (A4988)
 │   │   ├── mcal/                    # Microcontroller Abstraction
@@ -570,6 +575,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Contact
 
+
 **Project Maintainer:** 
 Abdelrahman Sayed Ahmed
 
@@ -590,7 +596,6 @@ Karim Walid Fawzy
 - 🐙 GitHub: https://github.com/starAwesome123
 
 **Project Link:** https://github.com/abdo-sayed1/Industrial_Predictive_Maintenance_AIoT
-
 ---
 
 ## 🙏 Acknowledgments
