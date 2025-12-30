@@ -20,8 +20,9 @@
 // DS18B20 (OneWire)
 #define DS18B20_PIN 4
 
-// ACS712 (Analog)
-#define ACS712_PIN 34
+// MAX471 Voltage & Current Sensor
+#define MAX471_VOLTAGE_PIN 34
+#define MAX471_CURRENT_PIN 35
 
 // Voltage Sensor (Analog)
 #define VOLTAGE_PIN 35
@@ -71,3 +72,4 @@
 #define SERIAL_BAUD 115200
 
 #endif
+
