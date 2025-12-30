@@ -25,9 +25,9 @@ void mqttsetup()
         Serial.print("MQTT connection failed! Error code = ");
         Serial.println(mqttClient.connectError());
         while (1);
-        }
-        pinMode(14, INPUT);
-        Serial.println("You're connected to the MQTT broker!");
-        Serial.println();
+      }
+      pinMode(14, INPUT);
+      Serial.println("You're connected to the MQTT broker!");
+      Serial.println();
     }       
 }

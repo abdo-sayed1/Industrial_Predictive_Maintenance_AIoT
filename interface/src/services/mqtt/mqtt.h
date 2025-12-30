@@ -9,7 +9,7 @@ extern "C" {
     #define SECRET_PASS " "
     #define MQTT_IPADDRESS "1"
     #define MQTT_PORT 1883
-    
+    void mqttsetup();
 #if __cplusplus 
 }
 #endif

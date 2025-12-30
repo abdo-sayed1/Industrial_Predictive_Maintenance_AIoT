@@ -3,6 +3,7 @@
 #if __cplusplus 
 extern "C" {
 #endif
+    #include "../../mcal/adc/adc.h"
 #if __cplusplus 
 }
 #endif
