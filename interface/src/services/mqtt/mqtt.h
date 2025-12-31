@@ -7,9 +7,10 @@ extern "C" {
     #include <ArduinoMqttClient.h>
     #define SECRET_SSID " "
     #define SECRET_PASS " "
-    #define MQTT_IPADDRESS "1"
+    #define MQTT_IPADDRESS "8.8.8.8"
     #define MQTT_PORT 1883
     void mqttsetup();
+    
 #if __cplusplus 
 }
 #endif

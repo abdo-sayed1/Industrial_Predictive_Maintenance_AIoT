@@ -3,7 +3,6 @@ const char ssid[] = SECRET_SSID;
 const char pass[] = SECRET_PASS;
 const char server[] = MQTT_IPADDRESS;
 const int port = MQTT_PORT;
-const char topic[] = "MachineState";
 bool switchState = false;
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
@@ -30,4 +29,10 @@ void mqttsetup()
       Serial.println("You're connected to the MQTT broker!");
       Serial.println();
     }       
+}
+void mqttpublish(const char* topic, const char* payload)
+{
+    mqttClient.beginMessage(topic);
+    mqttClient.print(payload);
+    mqttClient.endMessage();
 }
