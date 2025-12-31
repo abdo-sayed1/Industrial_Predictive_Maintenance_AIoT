@@ -30,8 +30,8 @@ void vbufferTask(void* pvParameters)
         float current = max471.getCurrentRaw(); // Placeholder for actual current reading
         float voltage = max471.getVoltageRaw(); // Placeholder for actual voltage reading
         float vib_x = getxacceleration(); // Placeholder for actual vibration x-axis reading
-        float vib_y = 0.12; // Placeholder for actual vibration y-axis reading
-        float vib_z = 0.08; // Placeholder for actual vibration z-axis reading
+        float vib_y = getyacceleration(); // Placeholder for actual vibration y-axis reading
+        float vib_z = getzacceleration(); // Placeholder for actual vibration z-axis reading
         float health_score = 87.5; // Placeholder for actual health score calculation
         const char* fault_type = "healthy"; // Placeholder for actual fault type determination
 
