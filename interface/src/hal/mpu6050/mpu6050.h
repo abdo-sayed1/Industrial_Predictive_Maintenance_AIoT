@@ -8,6 +8,13 @@ extern "C" {
     #include <Wire.h>
     // 
     void mpusetup();
+    float getxacceleration();
+    float getyacceleration();
+    float getzacceleration();
+    float getxgyro();
+    float getygyro();
+    float getzgyro();
+    float gettemp();
     
 #if __cplusplus 
 }
