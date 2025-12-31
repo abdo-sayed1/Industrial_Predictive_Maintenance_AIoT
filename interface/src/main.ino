@@ -6,10 +6,11 @@ void setup()
     Serial.begin(115200);
     wifiSetup();
     mqttsetup();
-    xTaskCreate(
+    xTaskCreate
+    (
         vloopmqtt,          // Task function
         "MQTT Loop",       // Name of the task
-        4096,              // Stack size (bytes)
+        (1<<12),           // Stack size (bytes)
         NULL,              // Task input parameter
         1,                 // Priority of the task
         NULL               // Task handle
@@ -20,3 +21,5 @@ void loop()
 {
     
 }
+/*
+*/
