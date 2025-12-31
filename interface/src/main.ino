@@ -3,12 +3,14 @@
 #include "./services/wifi/wifi.h"
 #include "./services/buffer/buffer.h"
 #include "./hal/mpu6050/mpu6050.h"
+#include "./app/features/features.h"
 void setup()
 {
     Serial.begin(115200);
     wifiSetup();
     mqttsetup();
     mpusetup();
+    setupTFLite();
     xTaskCreate
     (
         vloopmqtt,          // Task function
@@ -29,9 +31,7 @@ void setup()
     );
     vTaskStartScheduler();
 }
-void loop()
-{
-    
-}
+void loop(){}
 /*
+
 */
