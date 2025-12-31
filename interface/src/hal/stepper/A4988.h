@@ -5,7 +5,8 @@
 #define ANTI_CLOCKWISE false 
 #include <Arduino.h>
 
-class A4988 {
+class A4988 
+{
   private:
     uint8_t stepPin, dirPin, enablePin;
     long currentStep;

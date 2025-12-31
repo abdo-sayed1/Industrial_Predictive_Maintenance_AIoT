@@ -1,10 +1,9 @@
 #ifndef BUFFER_H
 #define BUFFER_H
-#if __cplusplus 
-extern "C" {
-#endif
+    #include <Arduino.h>
+/*
+Always read data, collect it and transmit it every 2 seconds 
+use freertos task for this
+*/
 
-#if __cplusplus 
-}
-#endif
 #endif
