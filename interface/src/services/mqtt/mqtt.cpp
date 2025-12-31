@@ -6,6 +6,9 @@ const int port = MQTT_PORT;
 bool switchState = false;
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
+#if BROKER_MODE
+PicoMQTT::Server broker(1883);
+#endif
 void mqttsetup()
 {
     if(Serial)
@@ -28,6 +31,9 @@ void mqttsetup()
       pinMode(14, INPUT);
       Serial.println("You're connected to the MQTT broker!");
       Serial.println();
+      #if BROKER_MODE
+      broker.begin();
+      #endif
     }       
 }
 void mqttpublish(const char* topic, const char* payload)
@@ -40,4 +46,11 @@ void mqttpublish(const char* topic, const char* payload)
 void mqttsubscribe(const char* topic)
 {
     mqttClient.subscribe(topic);
+}
+void vloopmqtt(void* pvParameters)
+{
+    #if BROKER_MODE
+    broker.loop();
+    #endif
+    mqttClient.poll();
 }

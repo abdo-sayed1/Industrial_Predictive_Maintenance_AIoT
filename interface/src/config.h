@@ -11,7 +11,7 @@
 #define MQTT_TOPIC "machine/sensors"
 #define MQTT_TOPIC_CONTROL "machine/control"
 #define MQTT_CLIENT_ID "esp32_machine_01"
-
+#define BROKER_MODE true                 // true for embedded broker, false for external
 // ============ Sensor Pins ============
 // MPU6050 (I2C)
 #define MPU6050_SDA 21
