@@ -38,14 +38,22 @@ void mqttsetup()
 }
 void mqttpublish(const char* topic, const char* payload)
 {
+    #if !BROKER_MODE
     mqttClient.beginMessage(topic);
     mqttClient.print(payload);
     mqttClient.endMessage();
+    #else
+    broker.publish(topic, payload);
+    #endif
 }
 // function for mqtt subscribe
 void mqttsubscribe(const char* topic)
 {
+    #if !BROKER_MODE
     mqttClient.subscribe(topic);
+    #else
+    broker.subscribe(topic);
+    #endif
 }
 void vloopmqtt(void* pvParameters)
 {
