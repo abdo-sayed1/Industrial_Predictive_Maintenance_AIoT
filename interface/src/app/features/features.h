@@ -1,9 +1,5 @@
 #ifndef FEATURES_H
 #define FEATURES_H
-#if __cplusplus 
-extern "C" {
-#endif
-#if __cplusplus 
-}
-#endif
+ #include <Arduino.h>
+ #include <TensorFlowLite_ESP32.h>
 #endif
