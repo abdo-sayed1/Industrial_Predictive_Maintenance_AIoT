@@ -2,10 +2,10 @@
 #define MQTT_H
     #include <WiFi.h>
     #include <ArduinoMqttClient.h>
-    #define SECRET_SSID " "
-    #define SECRET_PASS " "
-    #define MQTT_IPADDRESS "8.8.8.8"
-    #define MQTT_PORT 1883
+    #include "../../../src/config.h"
+    #define SECRET_SSID WIFI_SSID
+    #define SECRET_PASS WIFI_PASSWORD
+    #define MQTT_IPADDRESS MQTT_BROKER
     void mqttsetup();
     void mqttpublish(const char* topic, const char* payload);
     void mqttsubscribe(const char* topic);
