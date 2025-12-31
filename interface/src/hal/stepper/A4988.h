@@ -1,10 +1,6 @@
 #ifndef A4988_H
 #define A4988_H
-#if __cplusplus 
-extern "C" {
-#endif
-#ifndef A4988_ESP32_H
-#define A4988_ESP32_H
+
 #define CLOCKWISE true
 #define ANTI_CLOCKWISE false 
 #include <Arduino.h>
@@ -46,9 +42,4 @@ class A4988 {
       if (enablePin != 255) digitalWrite(enablePin, state ? LOW : HIGH);
     }
 };
-
-#endif
-#if __cplusplus 
-}
-#endif
 #endif

@@ -12,10 +12,7 @@
     #include <WiFiC3.h>
     #elif defined(ARDUINO_UNOR4_WIFI)
     #include <WiFiS3.h>
-#endif
-#if __cplusplus 
-extern "C" {
-#endif
+    #endif
     #include <Arduino.h>
     
     #ifndef SSID
@@ -32,7 +29,5 @@ extern "C" {
     String wifi_receive();
     void wifi_transmit(char*);
     void wifiSetup();
-#if __cplusplus 
-}
-#endif
+
 #endif
