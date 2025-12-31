@@ -36,3 +36,8 @@ void mqttpublish(const char* topic, const char* payload)
     mqttClient.print(payload);
     mqttClient.endMessage();
 }
+// function for mqtt subscribe
+void mqttsubscribe(const char* topic)
+{
+    mqttClient.subscribe(topic);
+}
