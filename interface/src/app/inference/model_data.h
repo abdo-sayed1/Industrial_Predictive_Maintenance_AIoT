@@ -6,4 +6,6 @@
     // TFLite model bytes go here (from Python conversion)
     // Example: 0x1c, 0x00, 0x00, 0x00, 0x54, 0x46, 0x4c, 0x33...
     };
+    
+    void setupTFLite();
 #endif

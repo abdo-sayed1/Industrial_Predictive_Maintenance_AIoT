@@ -1,6 +1,7 @@
 #include "inference.h"
 #include "model_data.h"
-namespace {
+namespace 
+{
     tflite::ErrorReporter* error_reporter = nullptr;
     const tflite::Model* model = nullptr;
     tflite::MicroInterpreter* interpreter = nullptr;
