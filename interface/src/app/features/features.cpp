@@ -17,7 +17,7 @@ void setupTFLite()
     error_reporter = &micro_error_reporter;
     
     // Load model
-    auto model = tflite::GetModel(g_model_data);
+    const tflite::Model* model = tflite::GetModel(g_model_data);
     if (model->version() != TFLITE_SCHEMA_VERSION) {
         Serial.println("Model schema mismatch!");
         return;
