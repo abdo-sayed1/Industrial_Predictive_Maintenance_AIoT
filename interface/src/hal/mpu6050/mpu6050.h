@@ -12,5 +12,4 @@
     float getygyro();
     float getzgyro();
     float gettemp();
-
 #endif

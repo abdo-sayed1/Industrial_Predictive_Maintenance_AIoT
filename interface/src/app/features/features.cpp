@@ -47,3 +47,52 @@ void setupTFLite()
     Serial.println("Input tensor dims: " + String(input->dims->size));
     Serial.println("Output tensor dims: " + String(output->dims->size));
 }
+// Normalization Constants (Example values based on sensor specs)
+const float VIB_MAX = 5.0f;  // Max G-force
+const float TEMP_MAX = 120.0f; // Max Celsius
+const float CURR_MAX = 20.0f;  // Max Amps
+
+// Handle for a queue to pass features to Inference
+QueueHandle_t xFeatureQueue;
+
+// Helper to normalize raw data to 0.0 - 1.0 range
+float normalize(float value, float max_val) {
+    float norm = value / max_val;
+    if (norm > 1.0f) return 1.0f;
+    if (norm < 0.0f) return 0.0f;
+    return norm;
+}
+
+void vFeaturesTask(void *pvParameters) {
+    MachineData_t rawData;
+    MachineData_t processedFeatures;
+
+    for (;;) {
+        // 1. High-frequency Sampling
+        // Vibration often needs higher sampling rates than temperature
+        rawData.vibration = HAL_ReadVibration(); 
+        rawData.temperature = HAL_ReadTemp();
+        rawData.current = HAL_ReadCurrent();
+        rawData.voltage = HAL_ReadVoltage();
+
+        // 2. Feature Engineering / Normalization
+        // ML models perform poorly if one input is 0.5 and another is 220.0
+        processedFeatures.vibration = normalize(rawData.vibration, VIB_MAX);
+        processedFeatures.temperature = normalize(rawData.temperature, TEMP_MAX);
+        processedFeatures.current = normalize(rawData.current, CURR_MAX);
+        processedFeatures.voltage = normalize(rawData.voltage, 240.0f); // Assuming 240V mains
+
+        // 3. Time-Domain to Frequency-Domain (Optional/Advanced)
+        // For vibration, you might calculate RMS here
+        // processedFeatures.vibration_rms = calculateRMS(vibration_window);
+
+        // 4. Send processed features to the Inference Task
+        // We wait up to 10 ticks if the queue is full
+        if (xQueueSend(xFeatureQueue, &processedFeatures, 10) != pdPASS) {
+            // Handle buffer overflow (e.g., increment an error counter)
+        }
+
+        // Match the sampling rate of your model (e.g., 20Hz = 50ms)
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+}

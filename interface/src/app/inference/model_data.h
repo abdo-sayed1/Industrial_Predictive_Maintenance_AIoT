@@ -12,6 +12,14 @@
     // TFLite model bytes go here (from Python conversion)
     // Example: 0x1c, 0x00, 0x00, 0x00, 0x54, 0x46, 0x4c, 0x33...
     };
-    
+    struct MachineData_s {
+        float vibration;
+        float temperature;
+        float current;
+        float voltage;
+        bool isAnomaly;
+        int faultType;
+    };
+    typedef struct MachineData_s MachineData_t;
     void setupTFLite();
 #endif
