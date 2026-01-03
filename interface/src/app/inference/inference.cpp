@@ -11,15 +11,7 @@ namespace
     constexpr int kTensorArenaSize = 8 * 1024;  // 8KB
     uint8_t tensor_arena[kTensorArenaSize];
 }
-const int kTensorArenaSize = 10 * 1024; 
-uint8_t tensor_arena[kTensorArenaSize];
-
 // TFLM Globals
-tflite::ErrorReporter* error_reporter = nullptr;
-const tflite::Model* model = nullptr;
-tflite::MicroInterpreter* model_interpreter = nullptr;
-TfLiteTensor* input_p;
-TfLiteTensor* output = nullptr;
 void vInferenceTask(void *pvParameters) 
 {
     setupTFLite();
@@ -35,10 +27,10 @@ void vInferenceTask(void *pvParameters)
 
         // 2. Pre-processing / Feature Mapping
         // Manually map your sensor data into the TFLite input tensor
-        input_p->data.f[0] = currentReadings.vibration;
-        input_p->data.f[1] = currentReadings.temperature;
-        input_p->data.f[2] = currentReadings.current;
-        input_p->data.f[3] = currentReadings.voltage;
+        input->data.f[0] = currentReadings.vibration;
+        input->data.f[1] = currentReadings.temperature;
+        input->data.f[2] = currentReadings.current;
+        input->data.f[3] = currentReadings.voltage;
 
         // 3. Run Inference
         TfLiteStatus invoke_status = interpreter->Invoke();
