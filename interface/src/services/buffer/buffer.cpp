@@ -22,9 +22,12 @@ MAX471 max471;
 
 void vbufferTask(void* pvParameters)
 {
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE<<9];
     xQueueHandle data_queue = get_data_queue();
     MachineData_t sensorData;
+    MachineData_t DataBuffer[20];
+    uint8_t i=0;
+    TickType_t xLastTickCount;
     while (1)
     {
         // Collect data from sensors
@@ -32,37 +35,40 @@ void vbufferTask(void* pvParameters)
         {
             continue; // Failed to receive data
         }
-        float rpm = MAX_SPEED; // Placeholder for actual RPM reading
-        float health_score = 87.5; // Placeholder for actual health score calculation
-        const char* fault_type = "healthy"; // Placeholder for actual fault type determination 
-        // Format data into JSON
-        snprintf(buffer, BUFFER_SIZE,
-                 "{\"timestamp\": %lu,\
-                  \"rpm\": %.2f, \
-                  \"temp\": %.2f,\
-                   \"current\": %.2f,\
-                    \"voltage\": %.2f, "
-                 "\"gforce total\": %.2f,\
-                  \"gforce rms\": %.2f, \
-                  \"rpm\": %.2f, \
-                  \"health_score\": %.2f,\
-                   \"fault_type\": \
-                   \"%s\"}",
-                 (millis() / 1000), 
-                 sensorData.speed, 
-                 sensorData.temperature, 
-                 sensorData.current, 
-                 sensorData.voltage, 
-                 sensorData.gforce, 
-                 sensorData.gforce_rms, 
-                 0.0f, 
-                 health_score, 
-                 fault_type);
-
+        // Store in buffer
+        DataBuffer[i++] = sensorData;
+        if(i < 20)
+        {
+            continue; // Buffer not full yet
+        }
+        i=0; // Reset index for next batch
+        // Prepare JSON payload
+        unsigned long timestamp = millis() / 1000; // Current time in seconds
+        /*
+        include all 20 samples in the JSON which contain health score and fault type
+        */
+        int len = snprintf(buffer, sizeof(buffer), "{\"timestamp\": %lu, \"data\": [", timestamp);
+        for(uint8_t j=0; j<20; j++)
+        {
+            len += snprintf(buffer + len, sizeof(buffer) - len,
+                "{\"gforce\": %.3f, \"temperature\": %.2f, \"current\": %.2f, \"voltage\": %.2f, \"speed\": %.2f, \"gforce_rms\": %.3f, \"isAnomaly\": %s, \"faultType\": %d,\"Health Score\": %.2f}%s",
+                DataBuffer[j].gforce,
+                DataBuffer[j].temperature,
+                DataBuffer[j].current,
+                DataBuffer[j].voltage,
+                DataBuffer[j].speed,
+                DataBuffer[j].gforce_rms,
+                DataBuffer[j].isAnomaly ? "true" : "false",
+                DataBuffer[j].faultType,
+                DataBuffer[j].healthScore,
+                (j < 19) ? "," : ""
+            );
+        }
         // Publish data via MQTT
         mqttpublish("machine/data", buffer);
 
         // Wait for 2 seconds before next transmission
-        vTaskDelay(pdMS_TO_TICKS(2000));
+        //xLastTickCount = xTaskGetTickCount();
+        //vTaskDelayUntil(&xLastTickCount,pdMS_TO_TICKS(2000));
     }
 }

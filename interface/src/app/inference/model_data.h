@@ -18,6 +18,7 @@
         float voltage;
         float speed;
         bool isAnomaly;
+        float healthScore;
         int faultType;
     };
     typedef struct MachineData_s MachineData_t;
@@ -25,4 +26,6 @@
     xQueueHandle get_data_queue();    
     xQueueHandle get_feature_queue();
     xQueueHandle get_inference_queue();
+    xQueueHandle get_raw_feature_queue();
+    xQueueHandle get_raw_inference_queue();
 #endif

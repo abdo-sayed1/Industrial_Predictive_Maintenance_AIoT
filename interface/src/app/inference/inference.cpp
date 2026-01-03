@@ -7,7 +7,15 @@
 #include "../../hal/stepper/A4988.h"
 #include "../../../src/config.h"
 #include <Arduino.h>
-xQueueHandle xDataQueue = xQueueCreate(5, sizeof(MachineData_t));
+xQueueHandle xDataQueue = xQueueCreate(20, sizeof(MachineData_t));
+xQueueHandle xRawInferenceDataQueue= xQueueCreate(1, sizeof(MachineData_t));
+xQueueHandle xRawFeatureDataQueue= xQueueCreate(1, sizeof(MachineData_t));
+xQueueHandle xProcessedInferenceQueue= xQueueCreate(1, sizeof(MachineData_t));
+xQueueHandle xProcessedFeatureQueue= xQueueCreate(1, sizeof(MachineData_t));
+xQueueHandle get_raw_feature_queue()
+{
+    return xRawFeatureDataQueue;
+}
 xQueueHandle get_data_queue()
 {
     return xDataQueue;
@@ -30,7 +38,7 @@ void vInferenceTask(void *pvParameters)
     while (1) 
     {
         // 1. Data Acquisition from Queue
-        if (xQueueReceive(xDataQueue, &currentReadings, portMAX_DELAY) != pdPASS) {
+        if (xQueueReceive(xRawInferenceDataQueue, &currentReadings, portMAX_DELAY) != pdPASS) {
             continue; // Failed to receive data
         }
         // 2. Pre-processing / Feature Mapping
@@ -95,9 +103,14 @@ void vSensorCollectionTask(void *pvParameters)
         }
 
         // Send to Inference Task
+        xQueueSend(xRawInferenceDataQueue, &sensorData, 0);
+        // Send to Feature Extraction Task
+        xQueueSend(xRawFeatureDataQueue, &sensorData, 0);
+        // Send to Data Queue for Buffering/MQTT
+        
         xQueueSend(xDataQueue, &sensorData, portMAX_DELAY);
         // Sampling rate using vTaskDelayUntil
         xLastWakeTime = xTaskGetTickCount();
-        vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(20)); // 50Hz sampling
+        vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(100)); // 50Hz sampling
     }
 }
