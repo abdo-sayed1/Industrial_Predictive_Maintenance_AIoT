@@ -57,14 +57,16 @@ const float CURR_MAX = 20.0f;  // Max Amps
 QueueHandle_t xFeatureQueue;
 
 // Helper to normalize raw data to 0.0 - 1.0 range
-float normalize(float value, float max_val) {
+float normalize(float value, float max_val) 
+{
     float norm = value / max_val;
     if (norm > 1.0f) return 1.0f;
     if (norm < 0.0f) return 0.0f;
     return norm;
 }
 
-void vFeaturesTask(void *pvParameters) {
+void vFeaturesTask(void *pvParameters) 
+{
     MachineData_t rawData;
     MachineData_t processedFeatures;
     while (1) {
@@ -87,19 +89,15 @@ void vFeaturesTask(void *pvParameters) {
         processedFeatures.gforce_rms = normalize(rawData.gforce_rms, VIB_MAX);
         processedFeatures.temperature = normalize(rawData.temperature, TEMP_MAX);
         processedFeatures.current = normalize(rawData.current, CURR_MAX);
-        processedFeatures.voltage = normalize(rawData.voltage, 240.0f); // Assuming 240V mains
-
-        // 3. Time-Domain to Frequency-Domain (Optional/Advanced)
-        // For vibration, you might calculate RMS here
-        // processedFeatures.vibration_rms = calculateRMS(vibration_window);
-
+        processedFeatures.voltage = normalize(rawData.voltage, 20.0f); // Assuming 240V mains
+        processedFeatures.speed = rawData.speed; // RPM can be used as-is or normalized if needed
         // 4. Send processed features to the Inference Task
         // We wait up to 10 ticks if the queue is full
-        if (xQueueSend(xFeatureQueue, &processedFeatures, 10) != pdPASS) {
+        if (xQueueSend(xFeatureQueue, &processedFeatures,pdMS_TO_TICKS(10)) != pdPASS) 
+        {
             // Handle buffer overflow (e.g., increment an error counter)
         }
-
         // Match the sampling rate of your model (e.g., 20Hz = 50ms)
-        vTaskDelay(pdMS_TO_TICKS(50));
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

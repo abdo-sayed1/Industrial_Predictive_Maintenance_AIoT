@@ -44,12 +44,12 @@ void vbufferTask(void* pvParameters)
                     \"voltage\": %.2f, "
                  "\"gforce total\": %.2f,\
                   \"gforce rms\": %.2f, \
-                  \"vib_z\": %.2f, \
+                  \"rpm\": %.2f, \
                   \"health_score\": %.2f,\
                    \"fault_type\": \
                    \"%s\"}",
                  (millis() / 1000), 
-                 rpm, 
+                 sensorData.speed, 
                  sensorData.temperature, 
                  sensorData.current, 
                  sensorData.voltage, 

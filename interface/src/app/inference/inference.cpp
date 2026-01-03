@@ -39,7 +39,7 @@ void vInferenceTask(void *pvParameters)
         input->data.f[1] = currentReadings.temperature;
         input->data.f[2] = currentReadings.current;
         input->data.f[3] = currentReadings.voltage;
-        input->data.f[4] = (float)currentReadings.pulseCount;
+        input->data.f[4] = currentReadings.speed;
         input->data.f[5] = currentReadings.gforce_rms;
 
         // 3. Run Inference
