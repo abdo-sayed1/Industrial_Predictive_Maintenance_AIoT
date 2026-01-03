@@ -6,4 +6,5 @@
  */
     #include "../../../src/config.h"
     void vFeaturesTask(void *pvParameters);
+    float normalize(float value, float max_val);
 #endif

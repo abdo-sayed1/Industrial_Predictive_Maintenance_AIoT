@@ -12,4 +12,5 @@
     //void encoderProcessingTask(void *pvParameters);
     xQueueHandle get_encoder_queue();
     xSemaphoreHandle get_encoder_semaphore();
+    void vCalculateRPM(void *pvParameters);
 #endif
