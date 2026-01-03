@@ -54,7 +54,10 @@ void vbufferTask(void* pvParameters)
                  sensorData.current, 
                  sensorData.voltage, 
                  sensorData.gforce, 
-                 sensorData.gforce_rms, 0.0f, health_score, fault_type);
+                 sensorData.gforce_rms, 
+                 0.0f, 
+                 health_score, 
+                 fault_type);
 
         // Publish data via MQTT
         mqttpublish("machine/data", buffer);

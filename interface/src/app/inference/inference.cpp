@@ -41,7 +41,7 @@ void vInferenceTask(void *pvParameters)
         input->data.f[3] = currentReadings.voltage;
         input->data.f[4] = (float)currentReadings.pulseCount;
         input->data.f[5] = currentReadings.gforce_rms;
-        
+
         // 3. Run Inference
         TfLiteStatus invoke_status = interpreter->Invoke();
         if (invoke_status != kTfLiteOk) {
@@ -70,6 +70,7 @@ void vSensorCollectionTask(void *pvParameters)
     xSemaphoreHandle encoder_semaphore = get_encoder_semaphore();
     xQueueHandle encoder_queue = get_encoder_queue();
     DS18B20_Simple ds18b20(DS18B20_PIN);
+    float previous_rpm = 0.0f;
     MAX471 max471;
     max471.init(MAX471_VOLTAGE_PIN,MAX471_CURRENT_PIN);
     while (1) 
@@ -80,16 +81,19 @@ void vSensorCollectionTask(void *pvParameters)
         sensorData.temperature = ds18b20.getTemperature();  // Placeholder for actual temperature reading
         sensorData.current =max471.getCurrentRaw(); // Placeholder for actual current reading
         sensorData.voltage = max471.getVoltageRaw(); // Placeholder for actual voltage reading
+
+        sensorData.speed;
         // Read encoder counts
         if (xSemaphoreTake(encoder_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) 
         {
-            unsigned long counts = 0;
-            xQueueReceive(encoder_queue, &counts, 0);
-            sensorData.pulseCount = counts;
+            float rpm;
+            xQueueReceive(encoder_queue, &rpm, 0);
+            sensorData.speed= rpm;
+            previous_rpm = rpm;
         }
         else 
         {
-            sensorData.pulseCount = 0; // No new counts
+            sensorData.speed = previous_rpm; // No new counts
         }
 
         // Send to Inference Task

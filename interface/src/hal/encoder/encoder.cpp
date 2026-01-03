@@ -14,15 +14,7 @@ void encoder_setup()
     // Additional setup code as needed
     pulseSemaphore = xSemaphoreCreateBinary();
     attachInterrupt(digitalPinToInterrupt(ENCODER_PIN_A), handleEncoderPulse, RISING);    
-    encoder_data_queue = xQueueCreate(1, sizeof(unsigned long));
-}
-long read_encoder_counts()
-{
-    // Read the encoder counts from hardware registers or variables
-    long counts = 0;
-    // Replace with actual reading logic
-    counts = digitalRead(ENCODER_PIN_A);
-    return counts;
+    encoder_data_queue = xQueueCreate(1, sizeof(float));
 }
 void IRAM_ATTR handleEncoderPulse() 
 {
@@ -35,22 +27,22 @@ void IRAM_ATTR handleEncoderPulse()
   // Signal the task that a pulse occurred
   xSemaphoreGiveFromISR(pulseSemaphore, NULL);
 }
-/*
-void encoderProcessingTask(void *pvParameters) 
+void vCalculateRPM(void *pvParameters) 
 {
-  unsigned long lastCount = 0;
-  while (1) 
-  {
-    // Wait for the semaphore (block for up to 100ms)
-    if (xSemaphoreTake(pulseSemaphore, pdMS_TO_TICKS(100)) == pdTRUE) 
+    unsigned long lastCount = 0;
+    const TickType_t xDelay = pdMS_TO_TICKS(50); // Hz update rate
+    while (1) 
     {
-      // You could do per-pulse logic here if needed
-      lastCount = pulseCount;
-      xQueueSend(encoder_data_queue, &lastCount,pdMS_TO_TICKS(50));
+        vTaskDelay(xDelay);
+        xSemaphoreTake(pulseSemaphore, portMAX_DELAY);
+        unsigned long currentCount = pulseCount;
+        unsigned long deltaCount = currentCount - lastCount;
+        float rpm = (deltaCount / (float)STEPS_PER_REVOLUTION) * 60.0f; // Convert to RPM
+        xQueueSend(encoder_data_queue, &rpm, 0);
+        lastCount = currentCount;
+        // You can send rpm to a queue or process it further
     }
-  }
 }
-*/
 xQueueHandle get_encoder_queue()
 {
     return encoder_data_queue;
