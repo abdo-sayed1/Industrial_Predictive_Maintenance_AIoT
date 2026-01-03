@@ -70,10 +70,10 @@ void vFeaturesTask(void *pvParameters) {
     for (;;) {
         // 1. High-frequency Sampling
         // Vibration often needs higher sampling rates than temperature
-        rawData.vibration = HAL_ReadVibration(); 
-        rawData.temperature = HAL_ReadTemp();
-        rawData.current = HAL_ReadCurrent();
-        rawData.voltage = HAL_ReadVoltage();
+        //rawData.vibration = HAL_ReadVibration(); 
+        //rawData.temperature = HAL_ReadTemp();
+        //rawData.current = HAL_ReadCurrent();
+        //rawData.voltage = HAL_ReadVoltage();
 
         // 2. Feature Engineering / Normalization
         // ML models perform poorly if one input is 0.5 and another is 220.0
