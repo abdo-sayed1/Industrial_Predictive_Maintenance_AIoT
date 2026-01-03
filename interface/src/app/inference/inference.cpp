@@ -1,6 +1,16 @@
 #include "inference.h"
 #include "model_data.h"
+#include "../../hal/ds18b20/ds18b20.h"
+#include "../../hal/electrical_sensors/max471.h"
+#include "../../hal/mpu6050/mpu6050.h"
+#include "../../hal/encoder/encoder.h"
+#include "../../hal/stepper/A4988.h"
 #include <Arduino.h>
+xQueueHandle xDataQueue = xQueueCreate(5, sizeof(MachineData_t));
+xQueueHandle get_data_queue()
+{
+    return xDataQueue;
+}
 namespace 
 {
     tflite::ErrorReporter* error_reporter = nullptr;
@@ -16,15 +26,12 @@ void vInferenceTask(void *pvParameters)
 {
     setupTFLite();
     MachineData_t currentReadings;
-
-    for (;;) 
+    while (1) 
     {
-        // 1. Read Raw Data
-        currentReadings.vibration = GetVibration();
-        currentReadings.temperature = HAL_GetTemperature();
-        currentReadings.current = HAL_GetCurrent();
-        currentReadings.voltage = HAL_GetVoltage();
-
+        // 1. Data Acquisition from Queue
+        if (xQueueReceive(xDataQueue, &currentReadings, portMAX_DELAY) != pdPASS) {
+            continue; // Failed to receive data
+        }
         // 2. Pre-processing / Feature Mapping
         // Manually map your sensor data into the TFLite input tensor
         input->data.f[0] = currentReadings.vibration;
@@ -51,5 +58,23 @@ void vInferenceTask(void *pvParameters)
 
         // Task yield to allow others to run
         vTaskDelay(pdMS_TO_TICKS(50)); 
+    }
+}
+void vSensorCollectionTask(void *pvParameters) 
+{
+    MachineData_t sensorData;
+    TickType_t xLastWakeTime;
+    while (1) 
+    {
+        // Read sensors
+        sensorData.vibration = HAL_ReadVibration();
+        sensorData.temperature = HAL_ReadTemp();
+        sensorData.current = HAL_ReadCurrent();
+        sensorData.voltage = HAL_ReadVoltage();
+        // Send to Inference Task
+        xQueueSend(xDataQueue, &sensorData, portMAX_DELAY);
+        // Sampling rate using vTaskDelayUntil
+        xLastWakeTime = xTaskGetTickCount();
+        vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(20)); // 50Hz sampling
     }
 }

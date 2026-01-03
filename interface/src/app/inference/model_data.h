@@ -22,4 +22,5 @@
     };
     typedef struct MachineData_s MachineData_t;
     void setupTFLite();
+    xQueueHandle get_data_queue();
 #endif
