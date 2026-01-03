@@ -105,13 +105,13 @@ void vSensorCollectionTask(void *pvParameters)
         }
 
         // Send to Inference Task
-        xQueueSend(xRawInferenceDataQueue, &sensorData, pdMS_TO_TICKS(10));
+        xQueueSend(xRawFeatureDataQueue, &sensorData, pdMS_TO_TICKS(10));
         // Send to Data Queue for Buffering/MQTT
-        xQueueReceive(xProcessedInferenceQueue, &sensorData, pdMS_TO_TICKS(10)); // Ensure latest data
+        xQueueReceive(xProcessedInferenceQueue, &sensorData, pdMS_TO_TICKS(20)); // Ensure latest data
 
         xQueueSend(xDataQueue, &sensorData, portMAX_DELAY);
         // Sampling rate using vTaskDelayUntil
         xLastWakeTime = xTaskGetTickCount();
-        vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(100)); // 50Hz sampling
+        vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(100)); // 10Hz sampling
     }
 }

@@ -5,6 +5,7 @@
 #include "./hal/mpu6050/mpu6050.h"
 #include "./app/features/features.h"
 #include "./app/inference/inference.h"
+#include "./hal/encoder/encoder.h"
 namespace 
 {
     tflite::ErrorReporter* error_reporter = nullptr;
@@ -23,6 +24,34 @@ void setup()
     mqttsetup();
     mpusetup();
     setupTFLite();
+    encoder_setup();
+    xTaskCreate
+    (
+        vSensorCollectionTask, // Task function
+        "Sensor Task",         // Name of the task
+        (1<<12),               // Stack size (bytes)
+        NULL,                  // Task input parameter
+        1,                     // Priority of the task
+        NULL                   // Task handle
+    );
+    xTaskCreate
+    (
+        vInferenceTask,       // Task function
+        "Inference Task",     // Name of the task
+        (1<<12),             // Stack size (bytes)
+        NULL,                // Task input parameter
+        3,                   // Priority of the task
+        NULL                 // Task handle
+    );
+    xTaskCreate
+    (
+        vFeaturesTask,       // Task function
+        "Feature Task",      // Name of the task
+        (1<<12),             // Stack size (bytes)
+        NULL,                // Task input parameter
+        2,                   // Priority of the task
+        NULL                 // Task handle
+    );
     xTaskCreate
     (
         vloopmqtt,          // Task function
@@ -36,9 +65,9 @@ void setup()
     (
         vbufferTask,       // Task function
         "Buffer Task",     // Name of the task
-        (1<<12),           // Stack size (bytes)
+        (1<<15),           // Stack size (bytes)
         NULL,              // Task input parameter
-        3,                 // Priority of the task
+        5,                 // Priority of the task
         NULL               // Task handle
     );
     vTaskStartScheduler();

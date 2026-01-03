@@ -5,4 +5,5 @@
 
  */
     #include "../../../src/config.h"
+    void vFeaturesTask(void *pvParameters);
 #endif

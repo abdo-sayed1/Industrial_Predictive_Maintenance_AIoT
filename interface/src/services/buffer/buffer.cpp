@@ -22,7 +22,7 @@ MAX471 max471;
 
 void vbufferTask(void* pvParameters)
 {
-    char buffer[BUFFER_SIZE<<9];
+    char buffer[BUFFER_SIZE<<4]; // Increased buffer size for larger JSON payload
     xQueueHandle data_queue = get_data_queue();
     MachineData_t sensorData;
     MachineData_t DataBuffer[20];
@@ -51,7 +51,7 @@ void vbufferTask(void* pvParameters)
         for(uint8_t j=0; j<20; j++)
         {
             len += snprintf(buffer + len, sizeof(buffer) - len,
-                "{\"gforce\": %.3f, \"temperature\": %.2f, \"current\": %.2f, \"voltage\": %.2f, \"speed\": %.2f, \"gforce_rms\": %.3f, \"isAnomaly\": %s, \"faultType\": %d,\"Health Score\": %.2f}%s",
+                "{\"gforce\": %.3f, \"temperature\": %.2f, \"current\": %.2f, \"voltage\": %.2f, \"speed\": %.2f, \"gforce_rms\": %.3f, \"isAnomaly\": %s, \"faultType\": %d,\"Health Score\": %.2f,\"Fault Label\":%s}%s",
                 DataBuffer[j].gforce,
                 DataBuffer[j].temperature,
                 DataBuffer[j].current,
@@ -61,9 +61,11 @@ void vbufferTask(void* pvParameters)
                 DataBuffer[j].isAnomaly ? "true" : "false",
                 DataBuffer[j].faultType,
                 DataBuffer[j].healthScore,
+                fault_labels[DataBuffer[j].faultType],
                 (j < 19) ? "," : ""
             );
         }
+        len += snprintf(buffer + len, sizeof(buffer) - len, "]}");
         // Publish data via MQTT
         mqttpublish("machine/data", buffer);
 

@@ -95,5 +95,6 @@ void vFeaturesTask(void *pvParameters)
             // Handle buffer overflow (e.g., increment an error counter)
         }
         // Match the sampling rate of your model (e.g., 20Hz = 50ms)
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
