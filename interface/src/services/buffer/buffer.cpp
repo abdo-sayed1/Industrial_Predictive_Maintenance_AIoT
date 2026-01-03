@@ -28,6 +28,7 @@ void vbufferTask(void* pvParameters)
     MachineData_t DataBuffer[20];
     uint8_t i=0;
     TickType_t xLastTickCount;
+    const char** mfault_labels = getfaultlabels();
     while (1)
     {
         // Collect data from sensors
@@ -61,7 +62,7 @@ void vbufferTask(void* pvParameters)
                 DataBuffer[j].isAnomaly ? "true" : "false",
                 DataBuffer[j].faultType,
                 DataBuffer[j].healthScore,
-                fault_labels[DataBuffer[j].faultType],
+                mfault_labels[DataBuffer[j].faultType],
                 (j < 19) ? "," : ""
             );
         }
