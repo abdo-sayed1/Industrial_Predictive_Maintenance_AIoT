@@ -39,7 +39,7 @@ void vInferenceTask(void *pvParameters)
         input->data.f[1] = currentReadings.temperature;
         input->data.f[2] = currentReadings.current;
         input->data.f[3] = currentReadings.voltage;
-        
+
         // 3. Run Inference
         TfLiteStatus invoke_status = interpreter->Invoke();
         if (invoke_status != kTfLiteOk) {
@@ -78,6 +78,18 @@ void vSensorCollectionTask(void *pvParameters)
         sensorData.temperature = ds18b20.getTemperature();  // Placeholder for actual temperature reading
         sensorData.current =max471.getCurrentRaw(); // Placeholder for actual current reading
         sensorData.voltage = max471.getVoltageRaw(); // Placeholder for actual voltage reading
+        // Read encoder counts
+        if (xSemaphoreTake(encoder_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) 
+        {
+            unsigned long counts = 0;
+            xQueueReceive(encoder_queue, &counts, 0);
+            sensorData.pulseCount = counts;
+        }
+        else 
+        {
+            sensorData.pulseCount = 0; // No new counts
+        }
+        
         // Send to Inference Task
         xQueueSend(xDataQueue, &sensorData, portMAX_DELAY);
         // Sampling rate using vTaskDelayUntil

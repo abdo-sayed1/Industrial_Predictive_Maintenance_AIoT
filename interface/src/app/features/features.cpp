@@ -48,7 +48,7 @@ void setupTFLite()
     Serial.println("Output tensor dims: " + String(output->dims->size));
 }
 // Normalization Constants (Example values based on sensor specs)
-const float VIB_MAX = 5.0f;  // Max G-force
+const float VIB_MAX = 5.0f;  // Max G-force total 
 const float TEMP_MAX = 120.0f; // Max Celsius
 const float CURR_MAX = 20.0f;  // Max Amps
 
@@ -82,7 +82,8 @@ void vFeaturesTask(void *pvParameters) {
         */
         // 2. Feature Engineering / Normalization
         // ML models perform poorly if one input is 0.5 and another is 220.0
-        processedFeatures.vibration = normalize(rawData.vibration, VIB_MAX);
+        processedFeatures.gforce = normalize(rawData.gforce, VIB_MAX);
+        processedFeatures.gforce_rms = normalize(rawData.gforce_rms, VIB_MAX);
         processedFeatures.temperature = normalize(rawData.temperature, TEMP_MAX);
         processedFeatures.current = normalize(rawData.current, CURR_MAX);
         processedFeatures.voltage = normalize(rawData.voltage, 240.0f); // Assuming 240V mains

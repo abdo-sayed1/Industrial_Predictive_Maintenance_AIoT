@@ -18,6 +18,7 @@
         float temperature;
         float current;
         float voltage;
+        unsigned long pulseCount;
         bool isAnomaly;
         int faultType;
     };
