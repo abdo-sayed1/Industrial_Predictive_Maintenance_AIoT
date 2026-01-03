@@ -22,5 +22,7 @@
     };
     typedef struct MachineData_s MachineData_t;
     void setupTFLite();
-    xQueueHandle get_data_queue();
+    xQueueHandle get_data_queue();    
+    xQueueHandle get_feature_queue();
+    xQueueHandle get_inference_queue();
 #endif

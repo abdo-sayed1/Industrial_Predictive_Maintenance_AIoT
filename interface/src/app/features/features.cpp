@@ -54,8 +54,11 @@ const float TEMP_MAX = 120.0f; // Max Celsius
 const float CURR_MAX = 20.0f;  // Max Amps
 
 // Handle for a queue to pass features to Inference
-QueueHandle_t xFeatureQueue;
-
+QueueHandle_t xFeatureQueue= xQueueCreate(1, sizeof(MachineData_t));
+xQueueHandle get_feature_queue()
+{
+    return xFeatureQueue;
+}
 // Helper to normalize raw data to 0.0 - 1.0 range
 float normalize(float value, float max_val) 
 {
@@ -77,12 +80,6 @@ void vFeaturesTask(void *pvParameters)
         {
             continue; // Failed to receive data
         }
-        /*
-        rawData.vibration = HAL_ReadVibration(); 
-        rawData.temperature = HAL_ReadTemp();
-        rawData.current = HAL_ReadCurrent();
-        rawData.voltage = HAL_ReadVoltage();
-        */
         // 2. Feature Engineering / Normalization
         // ML models perform poorly if one input is 0.5 and another is 220.0
         processedFeatures.gforce = normalize(rawData.gforce, VIB_MAX);
@@ -90,7 +87,7 @@ void vFeaturesTask(void *pvParameters)
         processedFeatures.temperature = normalize(rawData.temperature, TEMP_MAX);
         processedFeatures.current = normalize(rawData.current, CURR_MAX);
         processedFeatures.voltage = normalize(rawData.voltage, 20.0f); // Assuming 240V mains
-        processedFeatures.speed = rawData.speed; // RPM can be used as-is or normalized if needed
+        processedFeatures.speed = normalize(rawData.speed,100.0f); // RPM can be used as-is or normalized if needed
         // 4. Send processed features to the Inference Task
         // We wait up to 10 ticks if the queue is full
         if (xQueueSend(xFeatureQueue, &processedFeatures,pdMS_TO_TICKS(10)) != pdPASS) 

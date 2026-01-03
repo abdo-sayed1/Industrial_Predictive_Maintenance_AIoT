@@ -78,11 +78,9 @@ void vSensorCollectionTask(void *pvParameters)
         // Read sensors
         sensorData.gforce = get_total_gforce();
         sensorData.gforce_rms = get_rms_gforce();
-        sensorData.temperature = ds18b20.getTemperature();  // Placeholder for actual temperature reading
-        sensorData.current =max471.getCurrentRaw(); // Placeholder for actual current reading
-        sensorData.voltage = max471.getVoltageRaw(); // Placeholder for actual voltage reading
-
-        sensorData.speed;
+        sensorData.temperature = ds18b20.getTemperature();  
+        sensorData.current =max471.getCurrentRaw(); 
+        sensorData.voltage = max471.getVoltageRaw(); 
         // Read encoder counts
         if (xSemaphoreTake(encoder_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) 
         {

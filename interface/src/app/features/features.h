@@ -15,5 +15,4 @@
     "Overload",
     "Overheat"
     };
-    xQueueHandle get_feature_queue();
 #endif
