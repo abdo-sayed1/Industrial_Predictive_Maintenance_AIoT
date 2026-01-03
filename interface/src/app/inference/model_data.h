@@ -8,7 +8,6 @@
     #include "tensorflow/lite/micro/micro_interpreter.h"
     #include "tensorflow/lite/micro/all_ops_resolver.h"
     #include "../../../src/config.h"
-    const unsigned short int fault_model_len = 4872;
     const uint8_t* getfaultmodel();
     const unsigned short int getfaultmodellength();
     const char** getfaultlabels();
