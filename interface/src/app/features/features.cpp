@@ -1,4 +1,5 @@
 #include "features.h"
+
 namespace 
 {
     tflite::ErrorReporter* error_reporter = nullptr;
@@ -17,7 +18,7 @@ void setupTFLite()
     error_reporter = &micro_error_reporter;
     
     // Load model
-    const tflite::Model* model = tflite::GetModel(g_model_data);
+    const tflite::Model* model = tflite::GetModel(fault_model);
     if (model->version() != TFLITE_SCHEMA_VERSION) {
         Serial.println("Model schema mismatch!");
         return;

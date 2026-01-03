@@ -4,5 +4,16 @@
  /*
 
  */
-
+    #include "../../../src/config.h"
+    const char* fault_labels[NUM_CLASSES] = 
+    {
+    "Normal",
+    "Imbalance",
+    "Misalignment",
+    "Bearing Fault",
+    "Mechanical Looseness",
+    "Overload",
+    "Overheat"
+    };
+    xQueueHandle get_feature_queue();
 #endif

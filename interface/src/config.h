@@ -69,5 +69,8 @@
 // ============ Debug ============
 #define DEBUG_MODE true
 #define SERIAL_BAUD 115200
-
+    #define WINDOW_SIZE     64
+    #define NUM_FEATURES    46   // from scaler_params.h
+    #define NUM_CLASSES     7
+    #define SAMPLE_DELAY_MS 10
 #endif

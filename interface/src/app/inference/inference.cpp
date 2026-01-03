@@ -39,7 +39,9 @@ void vInferenceTask(void *pvParameters)
         input->data.f[1] = currentReadings.temperature;
         input->data.f[2] = currentReadings.current;
         input->data.f[3] = currentReadings.voltage;
-
+        input->data.f[4] = (float)currentReadings.pulseCount;
+        input->data.f[5] = currentReadings.gforce_rms;
+        
         // 3. Run Inference
         TfLiteStatus invoke_status = interpreter->Invoke();
         if (invoke_status != kTfLiteOk) {
@@ -89,7 +91,7 @@ void vSensorCollectionTask(void *pvParameters)
         {
             sensorData.pulseCount = 0; // No new counts
         }
-        
+
         // Send to Inference Task
         xQueueSend(xDataQueue, &sensorData, portMAX_DELAY);
         // Sampling rate using vTaskDelayUntil
