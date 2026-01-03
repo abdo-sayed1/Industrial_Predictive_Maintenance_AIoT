@@ -4,6 +4,7 @@
 #include "./services/buffer/buffer.h"
 #include "./hal/mpu6050/mpu6050.h"
 #include "./app/features/features.h"
+#include "./app/inference/inference.h"
 namespace 
 {
     tflite::ErrorReporter* error_reporter = nullptr;

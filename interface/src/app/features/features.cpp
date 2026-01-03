@@ -76,7 +76,7 @@ void vFeaturesTask(void *pvParameters)
         // 1. High-frequency Sampling
         // Vibration often needs higher sampling rates than temperature
         // get data from queue and process
-        if (xQueueReceive(get_data_queue(), &rawData, portMAX_DELAY) != pdPASS) 
+        if (xQueueReceive(get_raw_feature_queue(), &rawData, portMAX_DELAY) != pdPASS) 
         {
             continue; // Failed to receive data
         }
@@ -90,11 +90,10 @@ void vFeaturesTask(void *pvParameters)
         processedFeatures.speed = normalize(rawData.speed,100.0f); // RPM can be used as-is or normalized if needed
         // 4. Send processed features to the Inference Task
         // We wait up to 10 ticks if the queue is full
-        if (xQueueSend(xFeatureQueue, &processedFeatures,pdMS_TO_TICKS(10)) != pdPASS) 
+        if (xQueueSend(xFeatureQueue, &processedFeatures,pdMS_TO_TICKS(100)) != pdPASS) 
         {
             // Handle buffer overflow (e.g., increment an error counter)
         }
         // Match the sampling rate of your model (e.g., 20Hz = 50ms)
-        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

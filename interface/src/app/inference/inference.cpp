@@ -20,6 +20,7 @@ xQueueHandle get_data_queue()
 {
     return xDataQueue;
 }
+static portMUX_TYPE my_mutex = portMUX_INITIALIZER_UNLOCKED;
 namespace 
 {
     tflite::ErrorReporter* error_reporter = nullptr;
@@ -33,22 +34,22 @@ namespace
 // TFLM Globals
 void vInferenceTask(void *pvParameters) 
 {
-    setupTFLite();
-    MachineData_t currentReadings;
+    MachineData_t NormalizedReadings;
     while (1) 
     {
         // 1. Data Acquisition from Queue
-        if (xQueueReceive(xRawInferenceDataQueue, &currentReadings, portMAX_DELAY) != pdPASS) {
+        if( xQueueReceive(get_feature_queue(), &NormalizedReadings, portMAX_DELAY) != pdPASS) 
+        {
             continue; // Failed to receive data
         }
         // 2. Pre-processing / Feature Mapping
         // Manually map your sensor data into the TFLite input tensor
-        input->data.f[0] = currentReadings.gforce;
-        input->data.f[1] = currentReadings.temperature;
-        input->data.f[2] = currentReadings.current;
-        input->data.f[3] = currentReadings.voltage;
-        input->data.f[4] = currentReadings.speed;
-        input->data.f[5] = currentReadings.gforce_rms;
+        input->data.f[0] = NormalizedReadings.gforce;
+        input->data.f[1] = NormalizedReadings.temperature;
+        input->data.f[2] = NormalizedReadings.current;
+        input->data.f[3] = NormalizedReadings.voltage;
+        input->data.f[4] = NormalizedReadings.speed;
+        input->data.f[5] = NormalizedReadings.gforce_rms;
 
         // 3. Run Inference
         TfLiteStatus invoke_status = interpreter->Invoke();
@@ -61,18 +62,18 @@ void vInferenceTask(void *pvParameters)
         // Assuming your model output is a probability of failure (Softmax or Sigmoid)
         float failure_probability = output->data.f[0];
         
-        currentReadings.isAnomaly = (failure_probability > 0.8f); // Threshold 80%
-        currentReadings.faultType = (int)output->data.f[1];      // Example fault classification
+        NormalizedReadings.isAnomaly = (failure_probability > 0.8f); // Threshold 80%
+        NormalizedReadings.faultType = (int)output->data.f[1];      // Example fault classification
 
         // 5. Send to Queue for the MQTT Task
-        xQueueSend(xDataQueue, &currentReadings, 0);
-
+        xQueueSend(xProcessedInferenceQueue, &NormalizedReadings, 0);
         // Task yield to allow others to run
         vTaskDelay(pdMS_TO_TICKS(50)); 
     }
 }
 void vSensorCollectionTask(void *pvParameters) 
 {
+    portENTER_CRITICAL(&my_mutex);
     MachineData_t sensorData;
     TickType_t xLastWakeTime;
     xSemaphoreHandle encoder_semaphore = get_encoder_semaphore();
@@ -81,6 +82,7 @@ void vSensorCollectionTask(void *pvParameters)
     float previous_rpm = 0.0f;
     MAX471 max471;
     max471.init(MAX471_VOLTAGE_PIN,MAX471_CURRENT_PIN);
+    portEXIT_CRITICAL(&my_mutex);
     while (1) 
     {
         // Read sensors
@@ -103,11 +105,10 @@ void vSensorCollectionTask(void *pvParameters)
         }
 
         // Send to Inference Task
-        xQueueSend(xRawInferenceDataQueue, &sensorData, 0);
-        // Send to Feature Extraction Task
-        xQueueSend(xRawFeatureDataQueue, &sensorData, 0);
+        xQueueSend(xRawInferenceDataQueue, &sensorData, pdMS_TO_TICKS(10));
         // Send to Data Queue for Buffering/MQTT
-        
+        xQueueReceive(xProcessedInferenceQueue, &sensorData, pdMS_TO_TICKS(10)); // Ensure latest data
+
         xQueueSend(xDataQueue, &sensorData, portMAX_DELAY);
         // Sampling rate using vTaskDelayUntil
         xLastWakeTime = xTaskGetTickCount();
