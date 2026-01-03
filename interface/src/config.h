@@ -28,8 +28,8 @@
 
 // Rotary Encoder
 #define ENCODER_A_PIN 18
-#define ENCODER_B_PIN 19
-
+#define MAX471_VOLTAGE_PIN 35
+#define MAX471_CURRENT_PIN 34
 // ============ Stepper Motor (A4988) Pins ============
 #define STEPPER_STEP_PIN 25          // Step pulse pin
 #define STEPPER_DIR_PIN 26           // Direction pin

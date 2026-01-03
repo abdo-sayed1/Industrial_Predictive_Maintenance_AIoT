@@ -106,3 +106,17 @@ float gettemp()
     mpu.getEvent(&a,&g,&temp);
     return temp.temperature;
 }
+/*
+Total g force = sqrt(x^2 + y^2 + z^2)
+also calculate rms
+*/
+float get_total_gforce()
+{
+    mpu.getEvent(&a,&g,&temp);
+    return sqrt(pow(a.acceleration.x,2) + pow(a.acceleration.y,2) + pow(a.acceleration.z,2));
+}
+float get_rms_gforce()
+{
+    mpu.getEvent(&a,&g,&temp);
+    return sqrt((pow(a.acceleration.x,2) + pow(a.acceleration.y,2) + pow(a.acceleration.z,2))/3.0);
+}

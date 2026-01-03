@@ -5,10 +5,12 @@
     WYC H2010
 */
     #include <Arduino.h>
+    #include "../../config.h"
     void encoder_setup();
     long read_encoder_counts();
-    #define ENCODER_PIN_A 18
+    #define ENCODER_PIN_A ENCODER_A_PIN
     void IRAM_ATTR handleEncoderPulse();
-    void encoderProcessingTask(void *pvParameters);
+    //void encoderProcessingTask(void *pvParameters);
     xQueueHandle get_encoder_queue();
+    xSemaphoreHandle get_encoder_semaphore();
 #endif

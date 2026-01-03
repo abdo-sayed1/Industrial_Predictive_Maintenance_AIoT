@@ -3,6 +3,10 @@ SemaphoreHandle_t pulseSemaphore;
 TaskHandle_t processingTaskHandle = NULL;
 volatile unsigned long pulseCount = 0;
 xQueueHandle encoder_data_queue;
+xSemaphoreHandle get_encoder_semaphore()
+{
+    return pulseSemaphore;
+}
 void encoder_setup()
 {
     // Initialize encoder pins and settings
@@ -11,7 +15,6 @@ void encoder_setup()
     pulseSemaphore = xSemaphoreCreateBinary();
     attachInterrupt(digitalPinToInterrupt(ENCODER_PIN_A), handleEncoderPulse, RISING);    
     encoder_data_queue = xQueueCreate(1, sizeof(unsigned long));
-    xTaskCreate(encoderProcessingTask, "Encoder Processing Task", 1<<8, NULL, 2, &processingTaskHandle);
 }
 long read_encoder_counts()
 {
@@ -32,6 +35,7 @@ void IRAM_ATTR handleEncoderPulse()
   // Signal the task that a pulse occurred
   xSemaphoreGiveFromISR(pulseSemaphore, NULL);
 }
+/*
 void encoderProcessingTask(void *pvParameters) 
 {
   unsigned long lastCount = 0;
@@ -46,6 +50,7 @@ void encoderProcessingTask(void *pvParameters)
     }
   }
 }
+*/
 xQueueHandle get_encoder_queue()
 {
     return encoder_data_queue;

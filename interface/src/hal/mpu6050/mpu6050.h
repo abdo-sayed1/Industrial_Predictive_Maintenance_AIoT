@@ -12,4 +12,6 @@
     float getygyro();
     float getzgyro();
     float gettemp();
+    float get_total_gforce();
+    float get_rms_gforce();
 #endif

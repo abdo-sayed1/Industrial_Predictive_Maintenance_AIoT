@@ -13,7 +13,8 @@
     // Example: 0x1c, 0x00, 0x00, 0x00, 0x54, 0x46, 0x4c, 0x33...
     };
     struct MachineData_s {
-        float vibration;
+        float gforce;
+        float gforce_rms;
         float temperature;
         float current;
         float voltage;

@@ -5,6 +5,7 @@
 #include "../../hal/mpu6050/mpu6050.h"
 #include "../../hal/encoder/encoder.h"
 #include "../../hal/stepper/A4988.h"
+#include "../../../src/config.h"
 #include <Arduino.h>
 xQueueHandle xDataQueue = xQueueCreate(5, sizeof(MachineData_t));
 xQueueHandle get_data_queue()
@@ -34,11 +35,11 @@ void vInferenceTask(void *pvParameters)
         }
         // 2. Pre-processing / Feature Mapping
         // Manually map your sensor data into the TFLite input tensor
-        input->data.f[0] = currentReadings.vibration;
+        input->data.f[0] = currentReadings.gforce;
         input->data.f[1] = currentReadings.temperature;
         input->data.f[2] = currentReadings.current;
         input->data.f[3] = currentReadings.voltage;
-
+        
         // 3. Run Inference
         TfLiteStatus invoke_status = interpreter->Invoke();
         if (invoke_status != kTfLiteOk) {
@@ -64,13 +65,19 @@ void vSensorCollectionTask(void *pvParameters)
 {
     MachineData_t sensorData;
     TickType_t xLastWakeTime;
+    xSemaphoreHandle encoder_semaphore = get_encoder_semaphore();
+    xQueueHandle encoder_queue = get_encoder_queue();
+    DS18B20_Simple ds18b20(DS18B20_PIN);
+    MAX471 max471;
+    max471.init(MAX471_VOLTAGE_PIN,MAX471_CURRENT_PIN);
     while (1) 
     {
         // Read sensors
-        sensorData.vibration = HAL_ReadVibration();
-        sensorData.temperature = HAL_ReadTemp();
-        sensorData.current = HAL_ReadCurrent();
-        sensorData.voltage = HAL_ReadVoltage();
+        sensorData.gforce = get_total_gforce();
+        sensorData.gforce_rms = get_rms_gforce();
+        sensorData.temperature = ds18b20.getTemperature();  // Placeholder for actual temperature reading
+        sensorData.current =max471.getCurrentRaw(); // Placeholder for actual current reading
+        sensorData.voltage = max471.getVoltageRaw(); // Placeholder for actual voltage reading
         // Send to Inference Task
         xQueueSend(xDataQueue, &sensorData, portMAX_DELAY);
         // Sampling rate using vTaskDelayUntil
