@@ -600,8 +600,7 @@ Karim Walid Fawzy
 
 ## 🙏 Acknowledgments
 
-- **Supervisor:** [Supervisor Name] - Project guidance and mentorship
-- **Institution:** [University/Company Name]
+- **Institution:** NTI, SeiTECH
 - **References:**
   - ISO 13374 (Condition monitoring and diagnostics)
   - IEEE 1856 (Framework for prognostics)
