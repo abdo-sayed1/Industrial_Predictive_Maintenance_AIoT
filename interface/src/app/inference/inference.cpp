@@ -95,6 +95,7 @@ void vInferenceTask(void *pvParameters)
         vTaskDelay(pdMS_TO_TICKS(50)); 
     }
 }
+
 void vSensorCollectionTask(void *pvParameters) 
 {
     portENTER_CRITICAL(&my_mutex);

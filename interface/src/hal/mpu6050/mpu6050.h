@@ -14,4 +14,5 @@
     float gettemp();
     float get_total_gforce();
     float get_rms_gforce();
+    Adafruit_MPU6050* getMPU();
 #endif

@@ -1,6 +1,10 @@
 #include "mpu6050.h"
 Adafruit_MPU6050 mpu;
 sensors_event_t a,g,temp;
+Adafruit_MPU6050* getMPU()
+{
+    return &mpu;
+}
 void mpusetup()
 {
     if (!mpu.begin()) {
