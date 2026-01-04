@@ -6,8 +6,8 @@
 #define WIFI_PASSWORD "151201Aa@"
 
 // ============ MQTT Configuration ============
-#define MQTT_BROKER "192.168.1.100"        // Change to your Ubuntu IP
-#define MQTT_PORT 1883
+#define MQTT_BROKER "98.88.118.16"        // Change to your Ubuntu IP
+#define MQTT_PORT 1880
 #define MQTT_TOPIC "machine/sensors"
 #define MQTT_TOPIC_CONTROL "machine/control"
 #define MQTT_CLIENT_ID "esp32_machine_01"
