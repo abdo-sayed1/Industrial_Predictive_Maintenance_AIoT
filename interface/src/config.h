@@ -14,14 +14,11 @@
 #define BROKER_MODE true                 // true for embedded broker, false for external
 // ============ Sensor Pins ============
 // MPU6050 (I2C)
-#define MPU6050_SDA 21
-#define MPU6050_SCL 22
+#define MPU6050_SDA 4
+#define MPU6050_SCL 5
 
 // DS18B20 (OneWire)
-#define DS18B20_PIN 4
-
-// ACS712 (Analog)
-#define ACS712_PIN 34
+#define DS18B20_PIN 32
 
 // Voltage Sensor (Analog)
 #define VOLTAGE_PIN 35
@@ -31,9 +28,9 @@
 #define MAX471_VOLTAGE_PIN 35
 #define MAX471_CURRENT_PIN 34
 // ============ Stepper Motor (A4988) Pins ============
-#define STEPPER_STEP_PIN 25          // Step pulse pin
-#define STEPPER_DIR_PIN 26           // Direction pin
-#define STEPPER_ENABLE_PIN 27        // Enable pin (LOW = enabled)
+#define STEPPER_STEP_PIN 18          // Step pulse pin
+#define STEPPER_DIR_PIN 19           // Direction pin
+#define STEPPER_ENABLE_PIN 25        // Enable pin (LOW = enabled)
 #define STEPPER_MS1_PIN 14           // Microstep 1 (optional)
 #define STEPPER_MS2_PIN 12           // Microstep 2 (optional)
 #define STEPPER_MS3_PIN 13           // Microstep 3 (optional)
@@ -72,4 +69,5 @@
     #define NUM_FEATURES    46   // from scaler_params.h
     #define NUM_CLASSES     7
     #define SAMPLE_DELAY_MS 10
+
 #endif
