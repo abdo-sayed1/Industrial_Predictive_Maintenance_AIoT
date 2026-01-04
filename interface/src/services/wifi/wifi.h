@@ -14,12 +14,12 @@
     #include <WiFiS3.h>
     #endif
     #include <Arduino.h>
-    
+    #include "../../../src/config.h"
     #ifndef SSID
-    #define SSID      "your_SSID"
+    #define SSID      WIFI_SSID
     #endif
     #ifndef PASSWORD
-    #define PASSWORD  "your_PASSWORD"
+    #define PASSWORD  WIFI_PASSWORD
     #endif
     #define SERVER_M true
     #define CLIENT_M false

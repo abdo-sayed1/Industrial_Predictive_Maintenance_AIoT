@@ -74,7 +74,7 @@ void setup()
     (
         vCalculateRPM,     // Task function
         "RPM Calc Task",   // Name of the task
-        (1<<12),           // Stack size (bytes)
+        (1<<9),           // Stack size (bytes)
         NULL,              // Task input parameter
         1,                 // Priority of the task
         NULL               // Task handle
