@@ -1,5 +1,5 @@
 #include "max471.h"
-//
+
 MAX471::MAX471() {
     _voltagePin = 0;
     _currentPin = 0;

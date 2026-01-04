@@ -1,6 +1,6 @@
 #ifndef MAX471_H
 #define MAX471_H
-//
+
 #include <Arduino.h>
 
 class MAX471 {
