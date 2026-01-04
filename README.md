@@ -42,16 +42,6 @@
 *Real-time monitoring dashboard showing sensor data and system status*
 -->
 
-<br>
-
-### 📱 **Mobile Interface**
-<!-- 📸 ADD YOUR MOBILE APP SCREENSHOT HERE -->
-<!-- 
-![Mobile App](docs/images/mobile_app.jpg)
-*Mobile application for remote monitoring and control*
--->
-
-</div>
 
 ---
 
@@ -106,11 +96,128 @@ graph TB
     C3 --> D3
 ```
 
+#### **🏗️ Layer-by-Layer Breakdown**
+
+<div align="center">
+
+| Layer | Components | Responsibilities | Key Technologies |
+|-------|------------|------------------|-------------------|
+| **📱 Application** | App Manager, Sensor Manager, Task Manager | System orchestration, sensor data coordination, task scheduling | FreeRTOS, C++ Objects |
+| **🌐 Services** | WiFi Service, MQTT Client, RTOS Utils | Network connectivity, data transmission, real-time operations | WiFi, MQTT, FreeRTOS |
+| **🔧 Hardware** | MPU6050, DS18B20, MAX471, A4988, Encoder | Sensor data acquisition, actuator control, hardware interfaces | I2C, OneWire, ADC, GPIO |
+| **⚙️ MCAL** | GPIO, I2C, Timer | Low-level hardware abstraction, register manipulation, timing control | ESP32 Peripherals, Registers |
+
+</div>
+
+#### **🔄 Data Flow Between Layers**
+
+```mermaid
+graph LR
+    subgraph "Top-Down Flow"
+        A[Application Logic] --> B[Service Calls]
+        B --> C[Hardware Drivers]
+        C --> D[MCAL Operations]
+        D --> E[Physical Hardware]
+    end
+    
+    subgraph "Bottom-Up Flow"
+        E --> F[MCAL Events]
+        F --> G[Driver Callbacks]
+        G --> H[Service Notifications]
+        H --> I[Application Updates]
+    end
+    
+    style A fill:#e3f2fd
+    style B fill:#e8f5e8
+    style C fill:#fff3e0
+    style D fill:#fce4ec
+    style E fill:#f3e5f5
+    style I fill:#e3f2fd
+```
+
+#### **📋 Layer Responsibilities**
+
+<div align="center">
+
+**📱 Application Layer**
+- **System State Management** - Overall system health and status
+- **Task Coordination** - Managing FreeRTOS tasks and synchronization
+- **Data Processing** - Sensor data aggregation and formatting
+- **User Interface** - LED indicators, button handling
+- **Error Handling** - System-level error detection and recovery
+
+**🌐 Services Layer**
+- **Network Management** - WiFi connection, MQTT client management
+- **Data Transmission** - JSON formatting, MQTT publishing/subscribing
+- **Real-time Operations** - Timing, delays, critical sections
+- **Inter-layer Communication** - Message passing between layers
+
+**🔧 Hardware Abstraction Layer (HAL)**
+- **Sensor Drivers** - MPU6050, DS18B20, MAX471, Encoder implementations
+- **Actuator Control** - A4988 stepper motor driver interface
+- **Data Validation** - Sensor data validation and calibration
+- **Hardware Initialization** - Component setup and configuration
+
+**⚙️ Microcontroller Abstraction Layer (MCAL)**
+- **GPIO Operations** - Digital input/output, pin configuration
+- **I2C Communication** - Bus management, device addressing
+- **Timer Management** - Hardware timers, delays, timestamps
+- **Register Access** - Direct ESP32 peripheral register manipulation
+
+</div>
+
+#### **🔗 Inter-Layer Communication**
+
+<div align="center">
+
+```mermaid
+graph TD
+    subgraph "Communication Patterns"
+        A[Application Layer] -->|Direct Calls| B[Services Layer]
+        B -->|Service APIs| C[HAL Layer]
+        C -->|MCAL APIs| D[MCAL Layer]
+        
+        D -->|Hardware Events| C
+        C -->|Driver Callbacks| B
+        B -->|Service Events| A
+        
+        A -.->|Configuration| D
+        D -.->|Hardware Status| A
+    end
+    
+    style A fill:#e3f2fd
+    style B fill:#e8f5e8
+    style C fill:#fff3e0
+    style D fill:#fce4ec
+```
+
+**🔄 Communication Methods:**
+- **Synchronous Calls** - Direct function calls between layers
+- **Asynchronous Events** - Callbacks and interrupts from hardware
+- **Message Queues** - FreeRTOS queues for inter-task communication
+- **Shared Memory** - Global variables and data structures
+
+</div>
+
+#### **�️ Design Benefits**
+
+<div align="center">
+
+| Benefit | Description | Implementation |
+|---------|-------------|----------------|
+| **🔒 Modularity** | Each layer has specific responsibilities | Clear interfaces, minimal dependencies |
+| **🔄 Reusability** | Components can be reused across projects | Hardware-agnostic design |
+| **🧪 Testability** | Individual layers can be tested in isolation | Mock objects, unit tests |
+| **📈 Scalability** | Easy to add new sensors or features | Plugin architecture |
+| **🛠️ Maintainability** | Changes isolated to specific layers | Minimal impact analysis |
+
+</div>
+
 </div>
 
 ---
 
-## 🔧 Hardware Components
+## �🔧 Hardware Components
 
 <div align="center">
 
