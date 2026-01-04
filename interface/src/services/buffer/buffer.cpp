@@ -17,6 +17,7 @@ Mqtt message format to send data to the server
   "fault_type": "healthy"
 }
 */
+portMUX_TYPE mqttMutex = portMUX_INITIALIZER_UNLOCKED;
 DS18B20_Simple ds18b20(DS18B20_PIN);
 MAX471 max471;
 
@@ -42,6 +43,7 @@ void vbufferTask(void* pvParameters)
         {
             continue; // Buffer not full yet
         }
+        portENTER_CRITICAL(&mqttMutex);
         i=0; // Reset index for next batch
         // Prepare JSON payload
         unsigned long timestamp = millis() / 1000; // Current time in seconds
@@ -69,7 +71,7 @@ void vbufferTask(void* pvParameters)
         len += snprintf(buffer + len, sizeof(buffer) - len, "]}");
         // Publish data via MQTT
         mqttpublish("machine/data", buffer);
-
+        portEXIT_CRITICAL(&mqttMutex);
         // Wait for 2 seconds before next transmission
         //xLastTickCount = xTaskGetTickCount();
         //vTaskDelayUntil(&xLastTickCount,pdMS_TO_TICKS(2000));
