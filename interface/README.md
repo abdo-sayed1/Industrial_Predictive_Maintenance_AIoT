@@ -1,3 +1,5 @@
+[Presentation](presentation/index.html) — static HTML slides.
+
 <!--
 SVG Flowchart of project architecture
 Save as project_flowchart.svg
