@@ -1,1 +1,64 @@
 #include "mqtt.h"
+const char ssid[] = SECRET_SSID;
+const char pass[] = SECRET_PASS;
+const char server[] = MQTT_IPADDRESS;
+const int port = MQTT_PORT;
+bool switchState = false;
+WiFiClient wifiClient;
+MqttClient mqttClient(wifiClient);
+#if BROKER_MODE
+PicoMQTT::Server broker(1883);
+#endif
+void mqttsetup()
+{
+    if(Serial)
+    {
+        Serial.printf("Attempting to connect to WPA SSID: %s\n", ssid);
+        while(WiFi.status() != WL_CONNECTED)
+        {
+            Serial.print(".");
+            delay(1000);
+        }
+        Serial.printf("You're connected to the network!\n\n");
+        Serial.print("Attempting to connect to the MQTT broker: ");
+      Serial.println(server);
+      if (!mqttClient.connect(server, port)) 
+      {
+        Serial.print("MQTT connection failed! Error code = ");
+        Serial.println(mqttClient.connectError());
+        while (1);
+      }
+      pinMode(14, INPUT);
+      Serial.println("You're connected to the MQTT broker!");
+      Serial.println();
+      #if BROKER_MODE
+      broker.begin();
+      #endif
+    }       
+}
+void mqttpublish(const char* topic, const char* payload)
+{
+    #if !BROKER_MODE
+    mqttClient.beginMessage(topic);
+    mqttClient.print(payload);
+    mqttClient.endMessage();
+    #else
+    broker.publish(topic, payload);
+    #endif
+}
+// function for mqtt subscribe
+void mqttsubscribe(const char* topic)
+{
+    #if !BROKER_MODE
+    mqttClient.subscribe(topic);
+    #else
+    broker.subscribe(topic);
+    #endif
+}
+void vloopmqtt(void* pvParameters)
+{
+    #if BROKER_MODE
+    broker.loop();
+    #endif
+    mqttClient.poll();
+}

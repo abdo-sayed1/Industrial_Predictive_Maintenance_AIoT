@@ -1,9 +1,7 @@
 #ifndef INFERENCE_H
 #define INFERENCE_H
-#if __cplusplus 
-extern "C" {
-#endif
-#if __cplusplus 
-}
-#endif
+    #include "model_data.h"
+    void vInferenceTask(void *pvParameters);
+    void vSensorCollectionTask(void *pvParameters);
+
 #endif

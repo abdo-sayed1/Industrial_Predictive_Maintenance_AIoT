@@ -1,9 +1,16 @@
 #ifndef MQTT_H
 #define MQTT_H
-#if __cplusplus 
-extern "C" {
-#endif
-#if __cplusplus 
-}
-#endif
+    #include <WiFi.h>
+    #include <ArduinoMqttClient.h>
+    #include "../../../src/config.h"
+    #if BROKER_MODE
+    #include <PicoMQTT.h>
+    #endif 
+    #define SECRET_SSID WIFI_SSID
+    #define SECRET_PASS WIFI_PASSWORD
+    #define MQTT_IPADDRESS MQTT_BROKER
+    void mqttsetup();
+    void mqttpublish(const char* topic, const char* payload);
+    void mqttsubscribe(const char* topic);
+    void vloopmqtt(void* pvParameters);
 #endif

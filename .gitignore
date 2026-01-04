@@ -5,3 +5,8 @@ __pycache__/
 data/ 
 models/ 
 .env 
+interface.zip
+interface/presentation/index.html
+interface/presentation/README.md
+interface/presentation/style.css
+interface/code_rough_presentation.zip
