@@ -2,8 +2,8 @@
 #define CONFIG_H
 
 // ============ WiFi Configuration ============
-#define WIFI_SSID ""
-#define WIFI_PASSWORD "your_wifi_password"
+#define WIFI_SSID "A"
+#define WIFI_PASSWORD "151201Aa@"
 
 // ============ MQTT Configuration ============
 #define MQTT_BROKER "192.168.1.100"        // Change to your Ubuntu IP
