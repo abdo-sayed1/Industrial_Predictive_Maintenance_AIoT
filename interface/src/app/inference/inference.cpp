@@ -70,7 +70,7 @@ void vInferenceTask(void *pvParameters)
         
         NormalizedReadings.isAnomaly = (failure_probability > 0.8f); // Threshold 80%
         NormalizedReadings.faultType = (int)output->data.f[1];      // Example fault classification
-
+        NormalizedReadings.healthScore = 1.0f - failure_probability; // Health score
         // 5. Send to Queue for the MQTT Task
         xQueueSend(xProcessedInferenceQueue, &NormalizedReadings, 0);
         // Task yield to allow others to run

@@ -9,6 +9,7 @@
     #include "tensorflow/lite/micro/all_ops_resolver.h"
     #include "../../../src/config.h"
     #include "../model/model.h"
+    #pragma pack(push, 1)
     struct MachineData_s 
     {
         float a_x;
@@ -24,9 +25,11 @@
         float voltage;
         float speed;
         bool isAnomaly;
+        char faultlabel[23];
         float healthScore;
         int faultType;
-    };
+    };// 
+    #pragma pack(pop)
     typedef struct MachineData_s MachineData_t;
     void setupTFLite();
     xQueueHandle get_data_queue();    
