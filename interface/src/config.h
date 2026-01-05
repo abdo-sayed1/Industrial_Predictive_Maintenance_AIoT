@@ -22,7 +22,8 @@
 
 // Voltage Sensor (Analog)
 #define VOLTAGE_PIN 35
-
+// Current Sensor (Current)
+#define CURRENT_PIN 34
 // Rotary Encoder
 #define ENCODER_A_PIN 18
 #define MAX471_VOLTAGE_PIN 35
