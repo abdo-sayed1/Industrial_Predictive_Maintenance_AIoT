@@ -4,7 +4,7 @@
 #define CLOCKWISE true
 #define ANTI_CLOCKWISE false 
 #include <Arduino.h>
-
+void MotorRunningTask(void *pvParameters);
 class A4988 
 {
   private:
