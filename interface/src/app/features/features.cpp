@@ -82,6 +82,12 @@ void vFeaturesTask(void *pvParameters)
         }
         // 2. Feature Engineering / Normalization
         // ML models perform poorly if one input is 0.5 and another is 220.0
+        processedFeatures.a_x = normalize(rawData.a_x, VIB_MAX);
+        processedFeatures.a_y = normalize(rawData.a_y, VIB_MAX);
+        processedFeatures.a_z = normalize(rawData.a_z, VIB_MAX);
+        processedFeatures.g_x = normalize(rawData.g_x, VIB_MAX);
+        processedFeatures.g_y = normalize(rawData.g_y, VIB_MAX);
+        processedFeatures.g_z = normalize(rawData.g_z, VIB_MAX);
         processedFeatures.gforce = normalize(rawData.gforce, VIB_MAX);
         processedFeatures.gforce_rms = normalize(rawData.gforce_rms, VIB_MAX);
         processedFeatures.temperature = normalize(rawData.temperature, TEMP_MAX);
