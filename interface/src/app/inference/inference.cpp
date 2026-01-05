@@ -91,6 +91,7 @@ void vSensorCollectionTask(void *pvParameters)
     max471.init(MAX471_VOLTAGE_PIN,MAX471_CURRENT_PIN);
     A4988 stepper(STEPPER_STEP_PIN, STEPPER_DIR_PIN, STEPPER_ENABLE_PIN);
     stepper.begin();
+    stepper.enable(true); // Enable the motor        
     ds18b20.requestTemperature(); // Start first conversion
     portEXIT_CRITICAL(&my_mutex);
     while (1) 
