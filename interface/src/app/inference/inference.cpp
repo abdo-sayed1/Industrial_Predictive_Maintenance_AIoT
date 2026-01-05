@@ -87,11 +87,27 @@ void vSensorCollectionTask(void *pvParameters)
     while (1) 
     {
         // Read sensors
+        /*
+        float getxacceleration();
+    float getyacceleration();
+    float getzacceleration();
+    float getxgyro();
+    float getygyro();
+    float getzgyro();
+        */
+       portENTER_CRITICAL(&my_mutex);
+        sensorData.a_x =  getxacceleration();
+        sensorData.a_y =  getyacceleration();
+        sensorData.a_z =  getzacceleration();
+        sensorData.g_x = getxgyro();
+        sensorData.g_y = getygyro();
+        sensorData.g_z = getzgyro();
         sensorData.gforce = get_total_gforce();
         sensorData.gforce_rms = get_rms_gforce();
         sensorData.temperature = ds18b20.getTemperature();  
         sensorData.current =max471.getCurrentRaw(); 
         sensorData.voltage = max471.getVoltageRaw(); 
+        portEXIT_CRITICAL(&my_mutex);
         // Read encoder counts
         if (xSemaphoreTake(encoder_semaphore, pdMS_TO_TICKS(100)) == pdTRUE) 
         {

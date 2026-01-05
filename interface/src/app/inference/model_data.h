@@ -11,6 +11,12 @@
     #include "../model/model.h"
     struct MachineData_s 
     {
+        float a_x;
+        float a_y;
+        float a_z;
+        float g_x;
+        float g_y;
+        float g_z;
         float gforce;
         float gforce_rms;
         float temperature;

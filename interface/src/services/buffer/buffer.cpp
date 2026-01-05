@@ -54,7 +54,13 @@ void vbufferTask(void* pvParameters)
         for(uint8_t j=0; j<20; j++)
         {
             len += snprintf(buffer + len, sizeof(buffer) - len,
-                "{\"gforce\": %.3f, \"temperature\": %.2f, \"current\": %.2f, \"voltage\": %.2f, \"speed\": %.2f, \"gforce_rms\": %.3f, \"isAnomaly\": %s, \"faultType\": %d,\"Health Score\": %.2f,\"Fault Label\":%s}%s",
+                "{\"A_x\":%.2f,\"A_y\":%.2f,\"A_z\":%.2f,\"G_x\":%.2f,\"G_y\":%.2f,\"G_z\":%.2f,\"Total gforce\": %.3f, \"temperature\": %.2f, \"current\": %.2f, \"voltage\": %.2f, \"speed\": %.2f, \"gforce_rms\": %.3f, \"isAnomaly\": %s, \"faultType\": %d,\"Health Score\": %.2f,\"Fault Label\":%s}%s",
+                DataBuffer[j].a_x,
+                DataBuffer[j].a_y,
+                DataBuffer[j].a_z,
+                DataBuffer[j].g_x,
+                DataBuffer[j].g_y,
+                DataBuffer[j].g_z,
                 DataBuffer[j].gforce,
                 DataBuffer[j].temperature,
                 DataBuffer[j].current,
