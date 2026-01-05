@@ -44,13 +44,19 @@ void vInferenceTask(void *pvParameters)
         }
         // 2. Pre-processing / Feature Mapping
         // Manually map your sensor data into the TFLite input tensor
-        input->data.f[0] = NormalizedReadings.gforce;
-        input->data.f[1] = NormalizedReadings.temperature;
-        input->data.f[2] = NormalizedReadings.current;
-        input->data.f[3] = NormalizedReadings.voltage;
-        input->data.f[4] = NormalizedReadings.speed;
-        input->data.f[5] = NormalizedReadings.gforce_rms;
-
+        input->data.f[0] = NormalizedReadings.a_x;
+        input->data.f[1] = NormalizedReadings.a_y;
+        input->data.f[2] = NormalizedReadings.a_z;
+        input->data.f[3] = NormalizedReadings.g_x;
+        input->data.f[4] = NormalizedReadings.g_y;
+        input->data.f[5] = NormalizedReadings.g_z;
+        input->data.f[6] = NormalizedReadings.gforce;
+        input->data.f[7] = NormalizedReadings.gforce_rms;
+        input->data.f[8] = NormalizedReadings.temperature;
+        input->data.f[9] = NormalizedReadings.current;
+        input->data.f[10] = NormalizedReadings.voltage;
+        input->data.f[11] = NormalizedReadings.speed;
+        
         // 3. Run Inference
         TfLiteStatus invoke_status = interpreter->Invoke();
         if (invoke_status != kTfLiteOk) {
@@ -87,14 +93,6 @@ void vSensorCollectionTask(void *pvParameters)
     while (1) 
     {
         // Read sensors
-        /*
-        float getxacceleration();
-    float getyacceleration();
-    float getzacceleration();
-    float getxgyro();
-    float getygyro();
-    float getzgyro();
-        */
        portENTER_CRITICAL(&my_mutex);
         sensorData.a_x =  getxacceleration();
         sensorData.a_y =  getyacceleration();
