@@ -1,6 +1,5 @@
 [Presentation](presentation/index.html) — static HTML slides.
 
-<html>
   <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="900" viewBox="0 0 1000 900" font-family="Segoe UI, Arial, sans-serif">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
@@ -117,4 +116,3 @@
 
 </svg>
 
-</html>
