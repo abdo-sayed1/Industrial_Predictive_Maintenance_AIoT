@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![ESP32 Logo](https://img.shields.io/badge/ESP32-32--bit-blue?style=for-the-badge&logo=espressif)
+![ESP32 Logo](https://img.shields.io/badge/ESP32-12--bit-blue?style=for-the-badge&logo=espressif)
 ![Arduino](https://img.shields.io/badge/Arduino-IDE-orange?style=for-the-badge&logo=arduino)
 ![MQTT](https://img.shields.io/badge/MQTT-3.1.1-green?style=for-the-badge&logo=mqtt)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
