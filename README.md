@@ -17,8 +17,84 @@
 
 <div align="center">
 
-### 📸 **Hardware **
-<img width="1343" height="569" alt="image" src="https://cdn.shopify.com/s/files/1/0672/9409/files/ESP32S1.jpg?v=1742571441" />
+## 🔧 Hardware Components
+
+<div align="center">
+
+### **Core Controller**
+
+<img src="https://cdn.shopify.com/s/files/1/0672/9409/files/ESP32S1.jpg?v=1742571441" width="300" alt="ESP32 Development Board"/>
+
+![ESP32](https://img.shields.io/badge/ESP32-DevKit-blue?style=flat-square)
+*Main processing unit with WiFi & Bluetooth*
+
+---
+
+### **Sensors & Actuators**
+
+<table>
+<tr>
+<td align="center" width="20%">
+<img src="https://lastminuteengineers.com/wp-content/uploads/arduino/MPU6050-Module-Gyroscope-Axis.jpg" width="150" alt="MPU6050"/><br/>
+<b>📳 MPU6050</b><br/>
+<i>Vibration Sensor</i><br/>
+Interface: I2C
+</td>
+<td align="center" width="20%">
+<img src="https://www.voltaat.com/cdn/shop/products/voltaat-temperature-sensor-ds18b20-28337616420966_1200x1200.jpg?v=1628497273" width="150" alt="DS18B20"/><br/>
+<b>🌡️ DS18B20</b><br/>
+<i>Temperature Sensor</i><br/>
+Interface: OneWire
+</td>
+<td align="center" width="20%">
+<img src="https://www.circuits-diy.com/wp-content/uploads/2021/10/max471-voltage-current-sensor-module-datasheet.jpg" width="150" alt="MAX471"/><br/>
+<b>⚡ MAX471</b><br/>
+<i>Power Monitor</i><br/>
+Interface: Analog
+</td>
+<td align="center" width="20%">
+<img src="https://cdn.shopify.com/s/files/1/0672/9409/products/drv8825-stepper-driver.png?v=1585767531" width="150" alt="DRV8825"/><br/>
+<b>🔄 DRV8825/A4988</b><br/>
+<i>Stepper Driver</i><br/>
+Interface: Digital
+</td>
+<td align="center" width="20%">
+<img src="https://8z1xg04k.tinifycdn.com/images/e6b2c_img_prod.jpg?resize.method=fit&resize.width=675&resize.height=450" width="150" alt="Rotary Encoder"/><br/>
+<b>📍 Encoder</b><br/>
+<i>Position Sensor</i><br/>
+Interface: Digital
+</td>
+</tr>
+</table>
+
+---
+
+### **Motor & Mechanical Components**
+
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="https://www.omc-stepperonline.com/image/cache/catalog/stepper-motor/17/17HS19-2004S1-320x320.jpg" width="200" alt="Stepper Motor"/><br/>
+<b>🔧 NEMA 17 Stepper Motor</b><br/>
+<i>Precision motion control</i>
+</td>
+<td align="center" width="50%">
+<img src="https://makerselectronics.com/wp-content/uploads/2016/06/610FmraunnL._AC_SL1000_-803x803.jpg" width="200" alt="Power Supply"/><br/>
+<b>⚡ Power Supply Module</b><br/>
+<i>5V/12V regulated power</i>
+</td>
+</tr>
+</table>
+
+---
+
+### **Status Indicators**
+- 🟢 **System Status LED** - Normal operation
+- 🔴 **Fault LED** - Error conditions
+- 🔄 **System Button** - Manual control
+
+</div>
+
 
 <br>
 
