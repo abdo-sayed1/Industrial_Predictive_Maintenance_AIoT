@@ -788,10 +788,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-### **🎉 Thank you for using Industrial Predictive Maintenance AIoT System!**
+### **Industrial Predictive Maintenance AIoT System!**
 
-*Last Updated: January 2026*  
-*Version: 1.0.0*  
-*Made with ❤️ for Industrial IoT*
+
 
 </div>
