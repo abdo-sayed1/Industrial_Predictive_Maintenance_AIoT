@@ -1,5 +1,5 @@
 [Presentation](presentation/index.html) — static HTML slides.
-
+<html>
 <!--
 SVG Flowchart of project architecture
 Save as project_flowchart.svg
@@ -166,3 +166,4 @@ Save as project_flowchart.svg
     <text class="sub" x="20" y="192">- Build managed by PlatformIO (platformio.ini) -> toolchain-xtensa-esp32</text>
   </g>
 </svg>
+</html>
