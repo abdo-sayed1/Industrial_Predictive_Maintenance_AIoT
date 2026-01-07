@@ -96,23 +96,10 @@ Interface: Digital
 </div>
 
 
-<br>
 
-### 🔌 **Circuit Diagram**
-<!-- 📸 ADD YOUR CIRCUIT DIAGRAM HERE -->
-<!-- 
-![Circuit Diagram](docs/images/circuit_diagram.jpg)
-*Detailed wiring diagram for all components*
--->
-
-<br>
 
 ### 📊 **Monitoring Dashboard**
-<!-- 📸 ADD YOUR DASHBOARD SCREENSHOT HERE -->
-<!-- 
-![Data Dashboard](docs/images/dashboard.jpg)
-*Real-time monitoring dashboard showing sensor data and system status*
---><img width="1343" height="569" alt="image" src="https://github.com/user-attachments/assets/dedaad89-cce5-4e87-a88e-dea5e83f0ccd" />
+<img width="1343" height="569" alt="image" src="https://github.com/user-attachments/assets/dedaad89-cce5-4e87-a88e-dea5e83f0ccd" />
 
 
 
