@@ -17,12 +17,8 @@
 
 <div align="center">
 
-### 📸 **Hardware Setup**
-<!-- 📸 ADD YOUR HARDWARE PHOTO HERE -->
-<!-- 
-![Hardware Setup](docs/images/hardware_setup.jpg)
-*Complete hardware setup with ESP32 and all sensors connected*
--->
+### 📸 **Hardware **
+<img width="1343" height="569" alt="image" src="https://cdn.shopify.com/s/files/1/0672/9409/files/ESP32S1.jpg?v=1742571441" />
 
 <br>
 
