@@ -449,7 +449,6 @@ graph TD
 
 ### **🌡️ Environmental Specifications**
 ![Temperature](https://img.shields.io/badge/Temperature--40°C_to_+85°C-blue?style=flat-square)
-![Humidity](https://img.shields.io/badge/Humidity-10%_to_90%_RH-green?style=flat-square)
 ![Power](https://img.shields.io/badge/Power-5V_DC_±10%-orange?style=flat-square)
 ![Protection](https://img.shields.io/badge/Protection-IP20-red?style=flat-square)
 
@@ -624,7 +623,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | Metric | Value | Unit |
 |--------|-------|------|
 | 📝 **Lines of Code** | 3,000+ | LOC |
-| ⏱️ **Development Time** | 6 | months |
+| ⏱️ **Development Time** | 2 | weeks |
 | 🔍 **Supported Sensors** | 5 | types |
 | 📊 **Data Points** | 10+ | parameters |
 | 🔄 **Update Frequency** | Real-time | continuous |
