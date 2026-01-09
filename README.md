@@ -17,6 +17,13 @@
 
 <div align="center">
 
+### **📊 Monitoring Dashboard**
+<img width="1343" height="569" alt="image" src="https://github.com/user-attachments/assets/dedaad89-cce5-4e87-a88e-dea5e83f0ccd" />
+
+</div>
+
+---
+
 ## 🔧 Hardware Components
 
 <div align="center">
@@ -95,14 +102,6 @@ Interface: Digital
 
 </div>
 
-
-
-
-### 📊 **Monitoring Dashboard**
-<img width="1343" height="569" alt="image" src="https://github.com/user-attachments/assets/dedaad89-cce5-4e87-a88e-dea5e83f0ccd" />
-
-
-
 ---
 
 ## 📋 Overview
@@ -119,41 +118,15 @@ A comprehensive ESP32-based Industrial Predictive Maintenance system that monito
 
 ```mermaid
 graph TB
-    subgraph "Application Layer"
-        A1[App Manager]
-        A2[Sensor Manager]
-        A3[Task Manager]
-    end
-    
-    subgraph "Services Layer"
-        B1[WiFi Service]
-        B2[MQTT Client]
-        B3[RTOS Utils]
-    end
-    
-    subgraph "Hardware Abstraction Layer"
-        C1[MPU6050]
-        C2[DS18B20]
-        C3[MAX471]
-        C4[A4988]
-        C5[Encoder]
-    end
-    
-    subgraph "Microcontroller Abstraction Layer"
-        D1[GPIO]
-        D2[I2C]
-        D3[Timer]
-    end
-    
-    A1 --> B1
-    A2 --> B2
-    A3 --> B3
-    B1 --> C1
-    B2 --> C2
-    B3 --> C3
-    C1 --> D1
-    C2 --> D2
-    C3 --> D3
+    A1[App Manager] --> B1[WiFi Service]
+    A2[Sensor Manager] --> B2[MQTT Client]
+    A3[Task Manager] --> B3[RTOS Utils]
+    B1 --> C1[MPU6050]
+    B2 --> C2[DS18B20]
+    B3 --> C3[MAX471]
+    C1 --> D1[GPIO]
+    C2 --> D2[I2C]
+    C3 --> D3[Timer]
 ```
 
 #### **🏗️ Layer-by-Layer Breakdown**
@@ -173,26 +146,14 @@ graph TB
 
 ```mermaid
 graph LR
-    subgraph "Top-Down Flow"
-        A[Application Logic] --> B[Service Calls]
-        B --> C[Hardware Drivers]
-        C --> D[MCAL Operations]
-        D --> E[Physical Hardware]
-    end
-    
-    subgraph "Bottom-Up Flow"
-        E --> F[MCAL Events]
-        F --> G[Driver Callbacks]
-        G --> H[Service Notifications]
-        H --> I[Application Updates]
-    end
-    
-    style A fill:#e3f2fd
-    style B fill:#e8f5e8
-    style C fill:#fff3e0
-    style D fill:#fce4ec
-    style E fill:#f3e5f5
-    style I fill:#e3f2fd
+    A[Application Logic] --> B[Service Calls]
+    B --> C[Hardware Drivers]
+    C --> D[MCAL Operations]
+    D --> E[Physical Hardware]
+    E --> F[MCAL Events]
+    F --> G[Driver Callbacks]
+    G --> H[Service Notifications]
+    H --> I[Application Updates]
 ```
 
 #### **📋 Layer Responsibilities**
@@ -228,27 +189,14 @@ graph LR
 
 #### **🔗 Inter-Layer Communication**
 
-<div align="center">
-
 ```mermaid
 graph TD
-    subgraph "Communication Patterns"
-        A[Application Layer] -->|Direct Calls| B[Services Layer]
-        B -->|Service APIs| C[HAL Layer]
-        C -->|MCAL APIs| D[MCAL Layer]
-        
-        D -->|Hardware Events| C
-        C -->|Driver Callbacks| B
-        B -->|Service Events| A
-        
-        A -.->|Configuration| D
-        D -.->|Hardware Status| A
-    end
-    
-    style A fill:#e3f2fd
-    style B fill:#e8f5e8
-    style C fill:#fff3e0
-    style D fill:#fce4ec
+    A[Application Layer] -->|Direct Calls| B[Services Layer]
+    B -->|Service APIs| C[HAL Layer]
+    C -->|MCAL APIs| D[MCAL Layer]
+    D -->|Hardware Events| C
+    C -->|Driver Callbacks| B
+    B -->|Service Events| A
 ```
 
 **🔄 Communication Methods:**
@@ -257,9 +205,7 @@ graph TD
 - **Message Queues** - FreeRTOS queues for inter-task communication
 - **Shared Memory** - Global variables and data structures
 
-</div>
-
-#### **�️ Design Benefits**
+#### **🎯 Design Benefits**
 
 <div align="center">
 
@@ -277,33 +223,6 @@ graph TD
 
 ---
 
-## �🔧 Hardware Components
-
-<div align="center">
-
-### **Core Controller**
-![ESP32](https://img.shields.io/badge/ESP32-DevKit-blue?style=flat-square)
-*Main processing unit with WiFi & Bluetooth*
-
-### **Sensors & Actuators**
-
-| Component | Model | Interface | Purpose |
-|-----------|-------|-----------|---------|
-| 📳 **Vibration** | MPU6050 | I2C | Equipment vibration monitoring |
-| 🌡️ **Temperature** | DS18B20 | OneWire | Operating temperature tracking |
-| ⚡ **Power** | MAX471 | Analog | Current/voltage monitoring |
-| 🔄 **Motor Driver** | A4988 | Digital | Precision motor control |
-| 📍 **Position** | Encoder | Digital | Rotation/position feedback |
-
-### **Status Indicators**
-- 🟢 **System Status LED** - Normal operation
-- 🔴 **Fault LED** - Error conditions
-- 🔄 **System Button** - Manual control
-
-</div>
-
----
-
 ## 🔌 Pin Configuration
 
 <div align="center">
@@ -312,17 +231,17 @@ graph TD
 
 | ESP32 Pin | Component | Function | Mode |
 |------------|-----------|-----------|------|
-| 📍 GPIO 21 | MPU6050 SDA | I2C Data | I2C |
-| 📍 GPIO 22 | MPU6050 SCL | I2C Clock | I2C |
-| 📍 GPIO 4 | DS18B20 Data | OneWire | Digital |
-| 📍 GPIO 32 | MAX471 Current | Analog In | ADC |
-| 📍 GPIO 33 | MAX471 Voltage | Analog In | ADC |
-| 📍 GPIO 26 | A4988 Step | Motor Step | Digital |
-| 📍 GPIO 27 | A4988 Direction | Motor Direction | Digital |
-| 📍 GPIO 25 | A4988 Enable | Motor Enable | Digital |
-| 📍 GPIO 14 | A4988 MS1 | Microstep 1 | Digital |
-| 📍 GPIO 12 | A4988 MS2 | Microstep 2 | Digital |
-| 📍 GPIO 13 | A4988 MS3 | Microstep 3 | Digital |
+| 📍 GPIO 4 | MPU6050 SDA | I2C Data | I2C |
+| 📍 GPIO 5 | MPU6050 SCL | I2C Clock | I2C |
+| 📍 GPIO 33 | DS18B20 Data | OneWire | Digital |
+| 📍 GPIO 34 | MAX471 Current | Analog In | ADC |
+| 📍 GPIO 35 | MAX471 Voltage | Analog In | ADC |
+| 📍 GPIO 18 | A4988 Step | Motor Step | Digital |
+| 📍 GPIO 19 | A4988 Direction | Motor Direction | Digital |
+| 📍 GPIO GND | A4988 Enable | Motor Enable | Digital |
+| 📍 GPIO GND | A4988 MS1 | Microstep 1 | Digital |
+| 📍 GPIO GND | A4988 MS2 | Microstep 2 | Digital |
+| 📍 GPIO GND | A4988 MS3 | Microstep 3 | Digital |
 | 📍 GPIO 19 | Encoder Output | Position Signal | Digital |
 | 📍 GPIO 2 | Status LED | System Status | Digital |
 | 📍 GPIO 15 | Fault LED | Error Indicator | Digital |
@@ -338,36 +257,15 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph "Sensors"
-        S1[📳 MPU6050]
-        S2[🌡️ DS18B20]
-        S3[⚡ MAX471]
-        S4[📍 Encoder]
-    end
-    
-    subgraph "Processing"
-        P1[HAL Layer]
-        P2[MCAL Layer]
-        P3[ESP32 Core]
-    end
-    
-    subgraph "Network"
-        N1[📶 WiFi]
-        N2[🌐 MQTT Broker]
-        N3[☁️ Cloud/DB]
-    end
-    
-    S1 --> P1
-    S2 --> P1
-    S3 --> P1
-    S4 --> P1
-    
-    P1 --> P2
-    P2 --> P3
-    
-    P3 --> N1
-    N1 --> N2
-    N2 --> N3
+    S1[MPU6050] --> P1[HAL Layer]
+    S2[DS18B20] --> P1
+    S3[MAX471] --> P1
+    S4[Encoder] --> P1
+    P1 --> P2[MCAL Layer]
+    P2 --> P3[ESP32 Core]
+    P3 --> N1[WiFi]
+    N1 --> N2[MQTT Broker]
+    N2 --> N3[Cloud/DB]
 ```
 
 </div>
@@ -435,33 +333,15 @@ graph LR
 
 ```mermaid
 graph TD
-    A[1. Clone/Download Project] --> B[2. Install Arduino Libraries]
-    B --> C[3. Configure Settings]
-    C --> D[4. Upload to ESP32]
-    D --> E[5. Monitor System]
+    A[Clone Project] --> B[Install Libraries]
+    B --> C[Configure Settings]
+    C --> D[Upload to ESP32]
+    D --> E[Monitor System]
 ```
 
 </div>
 
-### **Installation Steps**
-
-<div align="center">
-
-```mermaid
-graph TD
-    A[📥 Clone/Download Project] --> B[📚 Install Arduino Libraries]
-    B --> C[⚙️ Configure Settings]
-    C --> D[🔌 Upload to ESP32]
-    D --> E[📊 Monitor System]
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#fff3e0
-    style D fill:#e8f5e8
-    style E fill:#fce4ec
-```
-
-</div>
+### **Detailed Installation Steps**
 
 1. **📥 Clone/Download Project**
    ```bash
@@ -510,36 +390,27 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Industrial_Predictive_Maintenance_AIoT] --> B[📄 Arduino Sketch]
-    A --> C[📁 src/]
-    
-    C --> D[📁 app/]
-    C --> E[📁 config/]
-    C --> F[� mcal/]
-    C --> G[📁 hal/]
-    C --> H[� services/]
-    
-    D --> D1[📄 App Manager]
-    D --> D2[📄 Sensor Manager]
-    
-    E --> E1[📄 System Config]
-    E --> E2[📄 WiFi Config]
-    E --> E3[📄 MQTT Config]
-    E --> E4[📄 Sensor Config]
-    
-    F --> F1[📁 GPIO/]
-    F --> F2[📁 I2C/]
-    F --> F3[📁 RTOS/]
-    F --> F4[📄 Timer]
-    
-    G --> G1[📁 MPU6050/]
-    G --> G2[📁 DS18B20/]
-    G --> G3[📁 MAX471/]
-    G --> G4[📁 A4988/]
-    G --> G5[📁 Encoder/]
-    
-    H --> H1[📁 WiFi/]
-    H --> H2[📁 MQTT/]
+    A[Industrial_Predictive_Maintenance_AIoT]
+    A --> B[Arduino Sketch]
+    A --> C[src/]
+    C --> D[app/]
+    C --> E[config/]
+    C --> F[mcal/]
+    C --> G[hal/]
+    C --> H[services/]
+    D --> D1[App Manager]
+    D --> D2[Sensor Manager]
+    E --> E1[System Config]
+    E --> E2[WiFi Config]
+    E --> E3[MQTT Config]
+    F --> F1[GPIO/]
+    F --> F2[I2C/]
+    F --> F3[RTOS/]
+    G --> G1[MPU6050/]
+    G --> G2[DS18B20/]
+    G --> G3[MAX471/]
+    H --> H1[WiFi/]
+    H --> H2[MQTT/]
 ```
 
 </div>
@@ -585,8 +456,7 @@ graph TD
 | Spec | Range | Notes |
 |------|-------|-------|
 | 🌡️ **Operating Temp** | -40°C to +85°C | Industrial grade |
-| 💧 **Humidity** | 10% to 90% RH | Non-condensing |
-| ⚡ **Power Supply** | 5V DC ±10% | Stable supply required |
+| ⚡ **Power Supply** | 12V 5A DC ±10% | Stable supply required |
 | 🛡️ **Protection** | IP20 | Indoor use only |
 
 </div>
@@ -601,15 +471,10 @@ graph TD
 
 ```mermaid
 graph LR
-    A[📳 MPU6050] --> B[Zero-g Calibration]
-    C[🌡️ DS18B20] --> D[Factory Calibrated]
-    E[⚡ MAX471] --> F[Load Verification]
-    G[📍 Encoder] --> H[Zero Reference]
-    
-    style B fill:#e3f2fd
-    style D fill:#e8f5e8
-    style F fill:#fff3e0
-    style H fill:#fce4ec
+    A[MPU6050] --> B[Zero-g Calibration]
+    C[DS18B20] --> D[Factory Calibrated]
+    E[MAX471] --> F[Load Verification]
+    G[Encoder] --> H[Zero Reference]
 ```
 
 ### **📅 Maintenance Schedule**
@@ -657,17 +522,11 @@ Enable serial debugging by setting:
 
 ```mermaid
 graph TD
-    A[🤖 Machine Learning] --> A1[On-device Anomaly Detection]
-    B[🌐 Web Dashboard] --> B1[Real-time Monitoring Interface]
-    C[💾 Data Logging] --> C1[Local SD Card Storage]
-    D[🔄 OTA Updates] --> D1[Over-the-air Firmware Updates]
-    E[🌐 Multiple Devices] --> E1[Mesh Networking Capability]
-    
-    style A1 fill:#e3f2fd
-    style B1 fill:#e8f5e8
-    style C1 fill:#fff3e0
-    style D1 fill:#fce4ec
-    style E1 fill:#f3e5f5
+    A[Machine Learning] --> A1[On-device Anomaly Detection]
+    B[Web Dashboard] --> B1[Real-time Monitoring Interface]
+    C[Data Logging] --> C1[Local SD Card Storage]
+    D[OTA Updates] --> D1[Over-the-air Firmware Updates]
+    E[Multiple Devices] --> E1[Mesh Networking Capability]
 ```
 
 | Feature | Status | Priority |
@@ -696,7 +555,7 @@ graph TD
 <div align="center">
 
 ### **🆘 Getting Help**
-![GitHub Issues](https://img.shields.io/badge/GitHub-I Issues-blue?style=flat-square)
+![GitHub Issues](https://img.shields.io/badge/GitHub-Issues-blue?style=flat-square)
 ![Discord](https://img.shields.io/badge/Discord-Community-purple?style=flat-square)
 ![Documentation](https://img.shields.io/badge/Docs-README-green?style=flat-square)
 
@@ -710,16 +569,10 @@ graph TD
 
 ```mermaid
 graph LR
-    A[🍴 Fork Repository] --> B[🌿 Create Feature Branch]
-    B --> C[🔧 Make Changes]
-    C --> D[🧪 Test Thoroughly]
-    D --> E[📤 Submit Pull Request]
-    
-    style A fill:#e3f2fd
-    style B fill:#e8f5e8
-    style C fill:#fff3e0
-    style D fill:#fce4ec
-    style E fill:#f3e5f5
+    A[Fork Repository] --> B[Create Feature Branch]
+    B --> C[Make Changes]
+    C --> D[Test Thoroughly]
+    D --> E[Submit Pull Request]
 ```
 
 </div>
@@ -788,8 +641,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-### **Industrial Predictive Maintenance AIoT System!**
+### **⭐ Industrial Predictive Maintenance AIoT System ⭐**
 
-
+**this readme file include future features **
 
 </div>
